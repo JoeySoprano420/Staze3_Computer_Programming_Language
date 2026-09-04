@@ -1,0 +1,14 @@
+staze 3
+module Tests.NegativeImplicitOwnedReturn
+fault AllocationFailure
+pool Cell @heap @lifetime(scope) @reclaim(scope)
+{
+    tick: revise i32
+}
+instruction Bad[] -> Cell
+faults [AllocationFailure]
+{
+    cell := Cell.alloc(1)
+    return cell
+}
+public instruction main[] -> i32 { return 0 }

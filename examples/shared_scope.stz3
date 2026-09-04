@@ -1,0 +1,21 @@
+staze 3
+module Examples.SharedScope
+
+fault AllocationFailure
+
+pool SharedCell
+    @heap
+    @lifetime(scope)
+    @reclaim(scope)
+    @ownership(shared)
+{
+    tick: revise i32
+}
+
+public instruction main[] -> i32
+faults [AllocationFailure]
+{
+    cell := SharedCell.alloc(7)
+    other := retain(cell)
+    return other.tick
+}

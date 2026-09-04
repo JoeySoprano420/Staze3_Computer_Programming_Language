@@ -1,0 +1,232 @@
+Internal ctest changing into directory: /mnt/data/StazeCpp23Compiler_0.7.0/build_clean_debug
+Test project /mnt/data/StazeCpp23Compiler_0.7.0/build_clean_debug
+        Start   1: check_core
+  1/113 Test   #1: check_core ....................................   Passed    0.03 sec
+        Start   2: check_hello
+  2/113 Test   #2: check_hello ...................................   Passed    0.02 sec
+        Start   3: reject_immutable_set
+  3/113 Test   #3: reject_immutable_set ..........................   Passed    0.02 sec
+        Start   4: reject_unhandled_overflow
+  4/113 Test   #4: reject_unhandled_overflow .....................   Passed    0.02 sec
+        Start   5: reject_delete_one
+  5/113 Test   #5: reject_delete_one .............................   Passed    0.02 sec
+        Start   6: build_pe
+  6/113 Test   #6: build_pe ......................................   Passed    0.34 sec
+        Start   7: emit_sirc_fixture
+  7/113 Test   #7: emit_sirc_fixture .............................   Passed    0.03 sec
+        Start   8: check_detached_sirc
+  8/113 Test   #8: check_detached_sirc ...........................   Passed    0.02 sec
+        Start   9: build_pe_from_detached_sirc
+  9/113 Test   #9: build_pe_from_detached_sirc ...................   Passed    0.37 sec
+        Start  10: reject_tampered_sirc
+ 10/113 Test  #10: reject_tampered_sirc ..........................   Passed    0.02 sec
+        Start  11: check_rich_cardinality
+ 11/113 Test  #11: check_rich_cardinality ........................   Passed    0.02 sec
+        Start  12: check_rich_resources
+ 12/113 Test  #12: check_rich_resources ..........................   Passed    0.03 sec
+        Start  13: check_effect_regions
+ 13/113 Test  #13: check_effect_regions ..........................   Passed    0.02 sec
+        Start  14: reject_use_after_move
+ 14/113 Test  #14: reject_use_after_move .........................   Passed    0.02 sec
+        Start  15: emit_rich_sirs_fixture
+ 15/113 Test  #15: emit_rich_sirs_fixture ........................   Passed    0.02 sec
+        Start  16: check_detached_rich_sirs
+ 16/113 Test  #16: check_detached_rich_sirs ......................   Passed    0.02 sec
+        Start  17: check_detached_rich_sirc
+ 17/113 Test  #17: check_detached_rich_sirc ......................   Passed    0.02 sec
+        Start  18: build_effect_regions_pe
+ 18/113 Test  #18: build_effect_regions_pe .......................   Passed    0.30 sec
+        Start  19: build_effect_regions_from_sirc
+ 19/113 Test  #19: build_effect_regions_from_sirc ................   Passed    0.29 sec
+        Start  20: reject_bad_effect_token
+ 20/113 Test  #20: reject_bad_effect_token .......................   Passed    0.02 sec
+        Start  21: reject_missing_move_authority
+ 21/113 Test  #21: reject_missing_move_authority .................   Passed    0.02 sec
+        Start  22: check_heap_allocation
+ 22/113 Test  #22: check_heap_allocation .........................   Passed    0.02 sec
+        Start  23: check_fault_payload_native
+ 23/113 Test  #23: check_fault_payload_native ....................   Passed    0.02 sec
+        Start  24: check_heap_scope_reclaim
+ 24/113 Test  #24: check_heap_scope_reclaim ......................   Passed    0.02 sec
+        Start  25: reject_zero_concrete_size
+ 25/113 Test  #25: reject_zero_concrete_size .....................   Passed    0.02 sec
+        Start  26: emit_rich_cardinality_sirc_fixture
+ 26/113 Test  #26: emit_rich_cardinality_sirc_fixture ............   Passed    0.02 sec
+        Start  27: check_detached_rich_cardinality_sirc
+ 27/113 Test  #27: check_detached_rich_cardinality_sirc ..........   Passed    0.03 sec
+        Start  28: build_rich_cardinality_pe
+ 28/113 Test  #28: build_rich_cardinality_pe .....................   Passed    0.36 sec
+        Start  29: build_rich_cardinality_from_sirc
+ 29/113 Test  #29: build_rich_cardinality_from_sirc ..............   Passed    0.32 sec
+        Start  30: build_rich_resources_pe
+ 30/113 Test  #30: build_rich_resources_pe .......................   Passed    0.35 sec
+        Start  31: build_heap_allocation_pe
+ 31/113 Test  #31: build_heap_allocation_pe ......................   Passed    0.32 sec
+        Start  32: build_fault_payload_native_pe
+ 32/113 Test  #32: build_fault_payload_native_pe .................   Passed    0.31 sec
+        Start  33: check_rich_caller_storage
+ 33/113 Test  #33: check_rich_caller_storage .....................   Passed    0.02 sec
+        Start  34: build_rich_caller_storage_pe
+ 34/113 Test  #34: build_rich_caller_storage_pe ..................   Passed    0.30 sec
+        Start  35: check_lifetime_cleanup
+ 35/113 Test  #35: check_lifetime_cleanup ........................   Passed    0.02 sec
+        Start  36: check_loop_scope_cleanup
+ 36/113 Test  #36: check_loop_scope_cleanup ......................   Passed    0.02 sec
+        Start  37: check_dynamic_many
+ 37/113 Test  #37: check_dynamic_many ............................   Passed    0.02 sec
+        Start  38: check_addressable_fields
+ 38/113 Test  #38: check_addressable_fields ......................   Passed    0.02 sec
+        Start  39: check_static_pool
+ 39/113 Test  #39: check_static_pool .............................   Passed    0.02 sec
+        Start  40: check_transaction_cleanup
+ 40/113 Test  #40: check_transaction_cleanup .....................   Passed    0.02 sec
+        Start  41: check_borrow_narrowing
+ 41/113 Test  #41: check_borrow_narrowing ........................   Passed    0.02 sec
+        Start  42: check_owned_heap_transfer
+ 42/113 Test  #42: check_owned_heap_transfer .....................   Passed    0.02 sec
+        Start  43: check_dynamic_many_transfer
+ 43/113 Test  #43: check_dynamic_many_transfer ...................   Passed    0.02 sec
+        Start  44: reject_widened_borrow_sirs
+ 44/113 Test  #44: reject_widened_borrow_sirs ....................   Passed    0.02 sec
+        Start  45: reject_borrow_return
+ 45/113 Test  #45: reject_borrow_return ..........................   Passed    0.02 sec
+        Start  46: reject_implicit_owned_return
+ 46/113 Test  #46: reject_implicit_owned_return ..................   Passed    0.02 sec
+        Start  47: reject_missing_transfer_discharge
+ 47/113 Test  #47: reject_missing_transfer_discharge .............   Passed    0.02 sec
+        Start  48: emit_owned_transfer_sirc_fixture
+ 48/113 Test  #48: emit_owned_transfer_sirc_fixture ..............   Passed    0.02 sec
+        Start  49: check_detached_owned_transfer_sirc
+ 49/113 Test  #49: check_detached_owned_transfer_sirc ............   Passed    0.02 sec
+        Start  50: emit_dynamic_many_transfer_sirc_fixture
+ 50/113 Test  #50: emit_dynamic_many_transfer_sirc_fixture .......   Passed    0.02 sec
+        Start  51: check_detached_dynamic_many_transfer_sirc
+ 51/113 Test  #51: check_detached_dynamic_many_transfer_sirc .....   Passed    0.02 sec
+        Start  52: build_lifetime_cleanup_pe
+ 52/113 Test  #52: build_lifetime_cleanup_pe .....................   Passed    0.31 sec
+        Start  53: build_loop_scope_cleanup_pe
+ 53/113 Test  #53: build_loop_scope_cleanup_pe ...................   Passed    0.33 sec
+        Start  54: build_dynamic_many_pe
+ 54/113 Test  #54: build_dynamic_many_pe .........................   Passed    0.32 sec
+        Start  55: build_addressable_fields_pe
+ 55/113 Test  #55: build_addressable_fields_pe ...................   Passed    0.32 sec
+        Start  56: build_static_pool_pe
+ 56/113 Test  #56: build_static_pool_pe ..........................   Passed    0.30 sec
+        Start  57: build_transaction_cleanup_pe
+ 57/113 Test  #57: build_transaction_cleanup_pe ..................   Passed    0.31 sec
+        Start  58: build_owned_heap_transfer_pe
+ 58/113 Test  #58: build_owned_heap_transfer_pe ..................   Passed    0.31 sec
+        Start  59: build_dynamic_many_transfer_pe
+ 59/113 Test  #59: build_dynamic_many_transfer_pe ................   Passed    0.32 sec
+        Start  60: build_owned_transfer_from_sirc
+ 60/113 Test  #60: build_owned_transfer_from_sirc ................   Passed    0.34 sec
+        Start  61: build_dynamic_many_transfer_from_sirc
+ 61/113 Test  #61: build_dynamic_many_transfer_from_sirc .........   Passed    0.33 sec
+        Start  62: check_07_borrow_cross_boundary
+ 62/113 Test  #62: check_07_borrow_cross_boundary ................   Passed    0.02 sec
+        Start  63: emit_07_borrow_cross_boundary_sirc
+ 63/113 Test  #63: emit_07_borrow_cross_boundary_sirc ............   Passed    0.02 sec
+        Start  64: check_07_borrow_cross_boundary_detached
+ 64/113 Test  #64: check_07_borrow_cross_boundary_detached .......   Passed    0.02 sec
+        Start  65: build_07_borrow_cross_boundary_source
+ 65/113 Test  #65: build_07_borrow_cross_boundary_source .........   Passed    0.31 sec
+        Start  66: build_07_borrow_cross_boundary_detached
+ 66/113 Test  #66: build_07_borrow_cross_boundary_detached .......   Passed    0.32 sec
+        Start  67: compare_07_borrow_cross_boundary_llvm
+ 67/113 Test  #67: compare_07_borrow_cross_boundary_llvm .........   Passed    0.06 sec
+        Start  68: check_07_borrow_mut_cross_boundary
+ 68/113 Test  #68: check_07_borrow_mut_cross_boundary ............   Passed    0.02 sec
+        Start  69: emit_07_borrow_mut_cross_boundary_sirc
+ 69/113 Test  #69: emit_07_borrow_mut_cross_boundary_sirc ........   Passed    0.02 sec
+        Start  70: check_07_borrow_mut_cross_boundary_detached
+ 70/113 Test  #70: check_07_borrow_mut_cross_boundary_detached ...   Passed    0.02 sec
+        Start  71: build_07_borrow_mut_cross_boundary_source
+ 71/113 Test  #71: build_07_borrow_mut_cross_boundary_source .....   Passed    0.30 sec
+        Start  72: build_07_borrow_mut_cross_boundary_detached
+ 72/113 Test  #72: build_07_borrow_mut_cross_boundary_detached ...   Passed    0.33 sec
+        Start  73: compare_07_borrow_mut_cross_boundary_llvm
+ 73/113 Test  #73: compare_07_borrow_mut_cross_boundary_llvm .....   Passed    0.06 sec
+        Start  74: check_07_shared_scope
+ 74/113 Test  #74: check_07_shared_scope .........................   Passed    0.03 sec
+        Start  75: emit_07_shared_scope_sirc
+ 75/113 Test  #75: emit_07_shared_scope_sirc .....................   Passed    0.03 sec
+        Start  76: check_07_shared_scope_detached
+ 76/113 Test  #76: check_07_shared_scope_detached ................   Passed    0.02 sec
+        Start  77: build_07_shared_scope_source
+ 77/113 Test  #77: build_07_shared_scope_source ..................   Passed    0.30 sec
+        Start  78: build_07_shared_scope_detached
+ 78/113 Test  #78: build_07_shared_scope_detached ................   Passed    0.34 sec
+        Start  79: compare_07_shared_scope_llvm
+ 79/113 Test  #79: compare_07_shared_scope_llvm ..................   Passed    0.06 sec
+        Start  80: check_07_shared_manual_release
+ 80/113 Test  #80: check_07_shared_manual_release ................   Passed    0.02 sec
+        Start  81: emit_07_shared_manual_release_sirc
+ 81/113 Test  #81: emit_07_shared_manual_release_sirc ............   Passed    0.02 sec
+        Start  82: check_07_shared_manual_release_detached
+ 82/113 Test  #82: check_07_shared_manual_release_detached .......   Passed    0.02 sec
+        Start  83: build_07_shared_manual_release_source
+ 83/113 Test  #83: build_07_shared_manual_release_source .........   Passed    0.32 sec
+        Start  84: build_07_shared_manual_release_detached
+ 84/113 Test  #84: build_07_shared_manual_release_detached .......   Passed    0.31 sec
+        Start  85: compare_07_shared_manual_release_llvm
+ 85/113 Test  #85: compare_07_shared_manual_release_llvm .........   Passed    0.05 sec
+        Start  86: check_07_shared_return
+ 86/113 Test  #86: check_07_shared_return ........................   Passed    0.02 sec
+        Start  87: emit_07_shared_return_sirc
+ 87/113 Test  #87: emit_07_shared_return_sirc ....................   Passed    0.02 sec
+        Start  88: check_07_shared_return_detached
+ 88/113 Test  #88: check_07_shared_return_detached ...............   Passed    0.03 sec
+        Start  89: build_07_shared_return_source
+ 89/113 Test  #89: build_07_shared_return_source .................   Passed    0.32 sec
+        Start  90: build_07_shared_return_detached
+ 90/113 Test  #90: build_07_shared_return_detached ...............   Passed    0.33 sec
+        Start  91: compare_07_shared_return_llvm
+ 91/113 Test  #91: compare_07_shared_return_llvm .................   Passed    0.05 sec
+        Start  92: check_07_send_resource
+ 92/113 Test  #92: check_07_send_resource ........................   Passed    0.02 sec
+        Start  93: emit_07_send_resource_sirc
+ 93/113 Test  #93: emit_07_send_resource_sirc ....................   Passed    0.02 sec
+        Start  94: check_07_send_resource_detached
+ 94/113 Test  #94: check_07_send_resource_detached ...............   Passed    0.02 sec
+        Start  95: build_07_send_resource_source
+ 95/113 Test  #95: build_07_send_resource_source .................   Passed    0.31 sec
+        Start  96: build_07_send_resource_detached
+ 96/113 Test  #96: build_07_send_resource_detached ...............   Passed    0.31 sec
+        Start  97: compare_07_send_resource_llvm
+ 97/113 Test  #97: compare_07_send_resource_llvm .................   Passed    0.06 sec
+        Start  98: check_07_partial_field_move
+ 98/113 Test  #98: check_07_partial_field_move ...................   Passed    0.02 sec
+        Start  99: emit_07_partial_field_move_sirc
+ 99/113 Test  #99: emit_07_partial_field_move_sirc ...............   Passed    0.02 sec
+        Start 100: check_07_partial_field_move_detached
+100/113 Test #100: check_07_partial_field_move_detached ..........   Passed    0.02 sec
+        Start 101: build_07_partial_field_move_source
+101/113 Test #101: build_07_partial_field_move_source ............   Passed    0.30 sec
+        Start 102: build_07_partial_field_move_detached
+102/113 Test #102: build_07_partial_field_move_detached ..........   Passed    0.31 sec
+        Start 103: compare_07_partial_field_move_llvm
+103/113 Test #103: compare_07_partial_field_move_llvm ............   Passed    0.06 sec
+        Start 104: check_07_transaction_send
+104/113 Test #104: check_07_transaction_send .....................   Passed    0.02 sec
+        Start 105: emit_07_transaction_send_sirc
+105/113 Test #105: emit_07_transaction_send_sirc .................   Passed    0.03 sec
+        Start 106: check_07_transaction_send_detached
+106/113 Test #106: check_07_transaction_send_detached ............   Passed    0.02 sec
+        Start 107: build_07_transaction_send_source
+107/113 Test #107: build_07_transaction_send_source ..............   Passed    0.38 sec
+        Start 108: build_07_transaction_send_detached
+108/113 Test #108: build_07_transaction_send_detached ............   Passed    0.33 sec
+        Start 109: compare_07_transaction_send_llvm
+109/113 Test #109: compare_07_transaction_send_llvm ..............   Passed    0.06 sec
+        Start 110: reject_07_bad_shared_flag
+110/113 Test #110: reject_07_bad_shared_flag .....................   Passed    0.02 sec
+        Start 111: reject_07_bad_component_link
+111/113 Test #111: reject_07_bad_component_link ..................   Passed    0.02 sec
+        Start 112: reject_07_bad_rollback
+112/113 Test #112: reject_07_bad_rollback ........................   Passed    0.02 sec
+        Start 113: reject_07_bad_cross_borrow
+113/113 Test #113: reject_07_bad_cross_borrow ....................   Passed    0.02 sec
+
+100% tests passed, 0 tests failed out of 113
+
+Total Test time (real) =  13.59 sec

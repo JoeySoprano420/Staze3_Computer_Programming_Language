@@ -1,0 +1,21 @@
+staze 3
+module Examples.BorrowCrossBoundary
+
+dataset Pair
+{
+    left: revise i32
+    right: i32
+}
+
+instruction View[p: borrow Pair] -> Pair
+@borrow_from(p)
+{
+    return borrow(p)
+}
+
+public instruction main[] -> i32
+{
+    obj: revise Pair := Pair(7, 9)
+    result := View(borrow(obj))
+    return result.left
+}

@@ -1,0 +1,27 @@
+staze 3
+module Examples.PartialFieldMove
+
+fault AllocationFailure
+
+pool Cell
+    @heap
+    @lifetime(scope)
+    @reclaim(scope)
+{
+    tick: revise i32
+}
+
+dataset Holder
+{
+    cell: Cell
+    marker: i32
+}
+
+public instruction main[] -> i32
+faults [AllocationFailure]
+{
+    cell := Cell.alloc(7)
+    holder := Holder(move(cell), 3)
+    extracted := move(holder.cell)
+    return extracted.tick
+}

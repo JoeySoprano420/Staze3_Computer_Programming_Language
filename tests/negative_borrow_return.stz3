@@ -1,0 +1,15 @@
+staze 3
+module Tests.NegativeBorrowReturn
+
+dataset Pair
+{
+    left: i32
+    right: i32
+}
+
+instruction Bad[p: Pair] -> Pair
+{
+    return borrow(p)
+}
+
+public instruction main[] -> i32 { return 0 }

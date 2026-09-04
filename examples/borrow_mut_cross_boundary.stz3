@@ -1,0 +1,25 @@
+staze 3
+module Examples.BorrowMutCrossBoundary
+
+
+dataset Pair
+{
+    left: revise i32
+    right: i32
+}
+
+instruction Edit[p: borrow_mut Pair] -> Pair
+@borrow_mut_from(p)
+faults [ArithmeticOverflow]
+{
+    revise p.left by 1
+    return borrow_mut(p)
+}
+
+public instruction main[] -> i32
+faults [ArithmeticOverflow]
+{
+    obj: revise Pair := Pair(7, 9)
+    result := Edit(borrow_mut(obj))
+    return result.left
+}

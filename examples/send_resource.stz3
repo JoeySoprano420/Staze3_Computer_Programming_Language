@@ -1,0 +1,20 @@
+staze 3
+module Examples.SendResource
+
+fault AllocationFailure
+
+pool Cell
+    @heap
+    @lifetime(scope)
+    @reclaim(scope)
+{
+    tick: revise i32
+}
+
+public instruction main[] -> i32
+faults [AllocationFailure]
+{
+    cell := Cell.alloc(7)
+    sent := send(cell)
+    return sent.tick
+}

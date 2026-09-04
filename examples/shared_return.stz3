@@ -1,0 +1,23 @@
+staze 3
+module Examples.SharedReturn
+fault AllocationFailure
+pool SharedCell
+    @heap
+    @lifetime(scope)
+    @reclaim(scope)
+    @ownership(shared)
+{
+    tick: revise i32
+}
+instruction Make[] -> SharedCell
+faults [AllocationFailure]
+{
+    cell := SharedCell.alloc(7)
+    return retain(cell)
+}
+public instruction main[] -> i32
+faults [AllocationFailure]
+{
+    cell := Make()
+    return cell.tick
+}

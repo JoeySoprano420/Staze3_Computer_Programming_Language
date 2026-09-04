@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(StazeCpp23Compiler VERSION 0.6.0 LANGUAGES CXX)
+project(StazeCpp23Compiler VERSION 0.7.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -149,3 +149,69 @@ if (STAZE_TEST_CLANG AND STAZE_TEST_LLD_LINK)
     add_test(NAME build_dynamic_many_transfer_from_sirc COMMAND stazec --from-sir-c ${CMAKE_BINARY_DIR}/dynamic_many_transfer.sirc -o ${CMAKE_BINARY_DIR}/dynamic_many_transfer_from_sirc.exe)
     set_tests_properties(build_dynamic_many_transfer_from_sirc PROPERTIES FIXTURES_REQUIRED dynamic_many_transfer_sirc ENVIRONMENT "STAZE_CLANG=${STAZE_TEST_CLANG};STAZE_LLD_LINK=${STAZE_TEST_LLD_LINK}")
 endif()
+
+# Compiler 0.7 Deep Ownership / SIR-C 5.0 serializer-backend-verifier loop.
+set(STAZE07_EXAMPLES
+    borrow_cross_boundary
+    borrow_mut_cross_boundary
+    shared_scope
+    shared_manual_release
+    shared_return
+    send_resource
+    partial_field_move
+    transaction_send
+)
+foreach(staze07_example IN LISTS STAZE07_EXAMPLES)
+    add_test(NAME check_07_${staze07_example}
+             COMMAND stazec ${CMAKE_SOURCE_DIR}/examples/${staze07_example}.stz3 --check)
+
+    add_test(NAME emit_07_${staze07_example}_sirc
+             COMMAND stazec ${CMAKE_SOURCE_DIR}/examples/${staze07_example}.stz3 --check
+                    --emit-sir-c ${CMAKE_BINARY_DIR}/${staze07_example}.07.sirc)
+    set_tests_properties(emit_07_${staze07_example}_sirc PROPERTIES
+                         FIXTURES_SETUP sirc07_${staze07_example})
+
+    add_test(NAME check_07_${staze07_example}_detached
+             COMMAND stazec --from-sir-c ${CMAKE_BINARY_DIR}/${staze07_example}.07.sirc --check)
+    set_tests_properties(check_07_${staze07_example}_detached PROPERTIES
+                         FIXTURES_REQUIRED sirc07_${staze07_example})
+
+    if (STAZE_TEST_CLANG AND STAZE_TEST_LLD_LINK)
+        add_test(NAME build_07_${staze07_example}_source
+                 COMMAND stazec ${CMAKE_SOURCE_DIR}/examples/${staze07_example}.stz3
+                         -o ${CMAKE_BINARY_DIR}/${staze07_example}.07.source.exe
+                         --emit-sir-c ${CMAKE_BINARY_DIR}/${staze07_example}.07.native.sirc
+                         --emit-llvm ${CMAKE_BINARY_DIR}/${staze07_example}.07.source.ll)
+        set_tests_properties(build_07_${staze07_example}_source PROPERTIES
+                             FIXTURES_SETUP native07_${staze07_example}
+                             ENVIRONMENT "STAZE_CLANG=${STAZE_TEST_CLANG};STAZE_LLD_LINK=${STAZE_TEST_LLD_LINK}")
+
+        add_test(NAME build_07_${staze07_example}_detached
+                 COMMAND stazec --from-sir-c ${CMAKE_BINARY_DIR}/${staze07_example}.07.native.sirc
+                         -o ${CMAKE_BINARY_DIR}/${staze07_example}.07.detached.exe
+                         --emit-llvm ${CMAKE_BINARY_DIR}/${staze07_example}.07.detached.ll)
+        set_tests_properties(build_07_${staze07_example}_detached PROPERTIES
+                             FIXTURES_REQUIRED native07_${staze07_example}
+                             ENVIRONMENT "STAZE_CLANG=${STAZE_TEST_CLANG};STAZE_LLD_LINK=${STAZE_TEST_LLD_LINK}")
+
+        add_test(NAME compare_07_${staze07_example}_llvm
+                 COMMAND ${CMAKE_COMMAND} -E compare_files
+                         ${CMAKE_BINARY_DIR}/${staze07_example}.07.source.ll
+                         ${CMAKE_BINARY_DIR}/${staze07_example}.07.detached.ll)
+        set_tests_properties(compare_07_${staze07_example}_llvm PROPERTIES
+                             DEPENDS "build_07_${staze07_example}_source;build_07_${staze07_example}_detached")
+    endif()
+endforeach()
+
+add_test(NAME reject_07_bad_shared_flag
+         COMMAND stazec --from-sir-c ${CMAKE_SOURCE_DIR}/tests/invalid_sirc07_bad_shared_flag.sirc --check)
+set_tests_properties(reject_07_bad_shared_flag PROPERTIES WILL_FAIL TRUE)
+add_test(NAME reject_07_bad_component_link
+         COMMAND stazec --from-sir-c ${CMAKE_SOURCE_DIR}/tests/invalid_sirc07_bad_component_link.sirc --check)
+set_tests_properties(reject_07_bad_component_link PROPERTIES WILL_FAIL TRUE)
+add_test(NAME reject_07_bad_rollback
+         COMMAND stazec --from-sir-c ${CMAKE_SOURCE_DIR}/tests/invalid_sirc07_bad_rollback.sirc --check)
+set_tests_properties(reject_07_bad_rollback PROPERTIES WILL_FAIL TRUE)
+add_test(NAME reject_07_bad_cross_borrow
+         COMMAND stazec --from-sir-c ${CMAKE_SOURCE_DIR}/tests/invalid_sirc07_bad_cross_borrow.sirc --check)
+set_tests_properties(reject_07_bad_cross_borrow PROPERTIES WILL_FAIL TRUE)

@@ -1,0 +1,23 @@
+staze 3
+module Examples.SharedManualRelease
+
+fault AllocationFailure
+
+pool SharedCell
+    @heap
+    @lifetime(scope)
+    @reclaim(manual)
+    @ownership(shared)
+{
+    tick: revise i32
+}
+
+public instruction main[] -> i32
+faults [AllocationFailure]
+{
+    cell := SharedCell.alloc(7)
+    other := retain(cell)
+    perform release(other)
+    perform release(cell)
+    return 0
+}
