@@ -1,0 +1,21 @@
+staze 3
+module Examples.EffectRegionsNative
+
+public instruction main[] -> i32
+faults [ArithmeticOverflow]
+{
+    counter: revise i32 := 0
+
+    transaction
+    {
+        revise counter by 2
+    }
+
+    parallel
+    {
+        local := 40
+    }
+
+    revise counter by 40
+    return counter
+}

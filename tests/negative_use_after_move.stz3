@@ -1,0 +1,15 @@
+staze 3
+module Negative.UseAfterMove
+
+dataset Thing
+{
+    key id: i32
+}
+
+public instruction main[] -> i32
+{
+    a := Thing(1)
+    b := move(a)
+    c := borrow(a)
+    return 0
+}

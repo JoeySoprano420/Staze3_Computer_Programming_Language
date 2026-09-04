@@ -1,0 +1,10 @@
+staze 3
+module Hello
+use Std.IO::{stdout}
+
+public instruction main[] -> i32
+{
+    greeting: text := "Hello from native Staze v3!\n"
+    perform stdout.write_text(greeting) delete IoFailure
+    return 0
+}

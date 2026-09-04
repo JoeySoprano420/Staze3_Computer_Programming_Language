@@ -1,0 +1,57 @@
+staze 3
+module Examples.RichResources
+
+dataset Person
+{
+    key id: i32
+    age: i32
+    index age
+}
+
+choice WorkState
+{
+    Idle
+    Busy(job: i32)
+}
+
+relation knows [source: Person, target: Person]
+{
+    source cardinality many
+    target cardinality many
+    unique pair
+    reverse index yes
+    ownership none
+}
+
+pool Frame @lifetime(call) @arena @reclaim(scope)
+{
+    tick: revise i32
+}
+
+instruction RichWork[] -> unit
+{
+    alice := Person(1, 30)
+    bob := Person(2, 31)
+    observer := borrow(alice)
+    transferred := move(bob)
+    state := WorkState.Busy(7)
+    frame := Frame.alloc(0)
+
+    transaction
+    {
+        perform knows.link(alice, transferred)
+    }
+
+    parallel
+    {
+        local := 9
+    }
+
+    return
+}
+
+public instruction main[] -> i32
+{
+    perform RichWork()
+    return 0
+}

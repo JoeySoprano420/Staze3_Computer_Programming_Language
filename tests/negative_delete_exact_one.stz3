@@ -1,0 +1,12 @@
+staze 3
+module Negative.DeleteExactOne
+instruction Inc[x: i32] -> i32
+faults [ArithmeticOverflow]
+{
+    return x + 1
+}
+public instruction main[] -> i32
+{
+    value: i32 := Inc(1) delete ArithmeticOverflow
+    return value
+}

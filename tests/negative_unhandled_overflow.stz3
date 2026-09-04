@@ -1,0 +1,10 @@
+staze 3
+module Negative.UnhandledOverflow
+instruction Inc[x: i32] -> i32
+{
+    return x + 1
+}
+public instruction main[] -> i32
+{
+    return Inc(1)
+}

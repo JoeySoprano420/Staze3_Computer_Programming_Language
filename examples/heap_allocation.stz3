@@ -1,0 +1,23 @@
+staze 3
+module Examples.HeapAllocation
+
+fault AllocationFailure
+
+pool HeapCell @lifetime(call) @heap @reclaim(manual)
+{
+    tick: revise i32
+}
+
+instruction MakeCell[x: i32] -> unit
+faults [AllocationFailure]
+{
+    cell := HeapCell.alloc(x)
+    return
+}
+
+public instruction main[] -> i32
+faults [AllocationFailure]
+{
+    perform MakeCell(7)
+    return 0
+}

@@ -1,0 +1,34 @@
+staze 3
+module Examples.RichCardinality
+
+fault Missing
+{
+    value: i32
+}
+
+instruction Maybe[x: i32] -> optional<i32>
+faults [Missing]
+{
+    if x = 0
+    {
+        fault Missing(x)
+    }
+    return some(x)
+}
+
+instruction Gather[x: i32] -> list<i32>
+faults [Missing, ArithmeticOverflow]
+{
+    if x = 0
+    {
+        fault Missing(x)
+    }
+    return many(x, x + 1)
+}
+
+public instruction main[] -> i32
+{
+    maybe: optional<i32> := Maybe(0) delete Missing
+    values: list<i32> := Gather(0) delete Missing bypass ArithmeticOverflow using many()
+    return 0
+}

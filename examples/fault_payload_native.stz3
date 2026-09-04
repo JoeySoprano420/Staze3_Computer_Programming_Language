@@ -1,0 +1,22 @@
+staze 3
+module Examples.FaultPayloadNative
+
+fault Missing
+{
+    value: i32
+}
+
+instruction Need[x: i32] -> i32
+faults [Missing]
+{
+    if x = 0
+    {
+        fault Missing(42)
+    }
+    return x
+}
+
+public instruction main[] -> i32
+{
+    return Need(0) bypass Missing using 7
+}

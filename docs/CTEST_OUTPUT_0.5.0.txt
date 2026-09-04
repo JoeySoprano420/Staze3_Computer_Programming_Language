@@ -1,0 +1,74 @@
+Internal ctest changing into directory: /mnt/data/StazeCpp23Compiler_0.5.0_work/StazeCpp23Compiler_0.5.0/build
+Test project /mnt/data/StazeCpp23Compiler_0.5.0_work/StazeCpp23Compiler_0.5.0/build
+      Start 18: build_effect_regions_pe
+      Start 15: emit_rich_sirs_fixture
+ 1/34 Test #15: emit_rich_sirs_fixture .................   Passed    0.00 sec
+      Start  7: emit_sirc_fixture
+ 2/34 Test  #7: emit_sirc_fixture ......................   Passed    0.00 sec
+      Start 26: emit_rich_cardinality_sirc_fixture
+ 3/34 Test #26: emit_rich_cardinality_sirc_fixture .....   Passed    0.00 sec
+      Start  6: build_pe
+ 4/34 Test #18: build_effect_regions_pe ................   Passed    0.04 sec
+      Start 28: build_rich_cardinality_pe
+ 5/34 Test  #6: build_pe ...............................   Passed    0.05 sec
+      Start 29: build_rich_cardinality_from_sirc
+ 6/34 Test #28: build_rich_cardinality_pe ..............   Passed    0.04 sec
+      Start  9: build_pe_from_detached_sirc
+ 7/34 Test #29: build_rich_cardinality_from_sirc .......   Passed    0.03 sec
+      Start 32: build_fault_payload_native_pe
+ 8/34 Test  #9: build_pe_from_detached_sirc ............   Passed    0.05 sec
+ 9/34 Test #32: build_fault_payload_native_pe ..........   Passed    0.04 sec
+      Start 31: build_heap_allocation_pe
+      Start 34: build_rich_caller_storage_pe
+10/34 Test #34: build_rich_caller_storage_pe ...........   Passed    0.03 sec
+      Start 30: build_rich_resources_pe
+11/34 Test #31: build_heap_allocation_pe ...............   Passed    0.04 sec
+      Start 19: build_effect_regions_from_sirc
+12/34 Test #30: build_rich_resources_pe ................   Passed    0.04 sec
+13/34 Test #19: build_effect_regions_from_sirc .........   Passed    0.03 sec
+      Start  1: check_core
+      Start  8: check_detached_sirc
+14/34 Test  #8: check_detached_sirc ....................   Passed    0.00 sec
+      Start 11: check_rich_cardinality
+15/34 Test  #1: check_core .............................   Passed    0.00 sec
+      Start 12: check_rich_resources
+16/34 Test #11: check_rich_cardinality .................   Passed    0.00 sec
+      Start 20: reject_bad_effect_token
+17/34 Test #12: check_rich_resources ...................   Passed    0.00 sec
+      Start 17: check_detached_rich_sirc
+18/34 Test #20: reject_bad_effect_token ................   Passed    0.00 sec
+      Start 33: check_rich_caller_storage
+19/34 Test #17: check_detached_rich_sirc ...............   Passed    0.00 sec
+      Start 27: check_detached_rich_cardinality_sirc
+20/34 Test #33: check_rich_caller_storage ..............   Passed    0.00 sec
+      Start 16: check_detached_rich_sirs
+21/34 Test #27: check_detached_rich_cardinality_sirc ...   Passed    0.00 sec
+      Start 23: check_fault_payload_native
+22/34 Test #16: check_detached_rich_sirs ...............   Passed    0.00 sec
+      Start  4: reject_unhandled_overflow
+23/34 Test #23: check_fault_payload_native .............   Passed    0.00 sec
+      Start 22: check_heap_allocation
+24/34 Test  #4: reject_unhandled_overflow ..............   Passed    0.00 sec
+      Start 25: reject_zero_concrete_size
+25/34 Test #22: check_heap_allocation ..................   Passed    0.00 sec
+      Start 13: check_effect_regions
+26/34 Test #25: reject_zero_concrete_size ..............   Passed    0.00 sec
+      Start 21: reject_missing_move_authority
+27/34 Test #13: check_effect_regions ...................   Passed    0.00 sec
+      Start 10: reject_tampered_sirc
+28/34 Test #21: reject_missing_move_authority ..........   Passed    0.00 sec
+      Start  5: reject_delete_one
+29/34 Test #10: reject_tampered_sirc ...................   Passed    0.00 sec
+      Start  2: check_hello
+30/34 Test  #5: reject_delete_one ......................   Passed    0.00 sec
+      Start  3: reject_immutable_set
+31/34 Test  #2: check_hello ............................   Passed    0.00 sec
+      Start 14: reject_use_after_move
+32/34 Test  #3: reject_immutable_set ...................   Passed    0.00 sec
+      Start 24: reject_heap_scope_reclaim
+33/34 Test #14: reject_use_after_move ..................   Passed    0.00 sec
+34/34 Test #24: reject_heap_scope_reclaim ..............   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 34
+
+Total Test time (real) =   0.23 sec

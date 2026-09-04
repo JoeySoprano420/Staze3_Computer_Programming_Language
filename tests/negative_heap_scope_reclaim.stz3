@@ -1,0 +1,16 @@
+staze 3
+module Tests.NegativeHeapScopeReclaim
+
+fault AllocationFailure
+
+pool HeapCell @lifetime(call) @heap @reclaim(scope)
+{
+    tick: revise i32
+}
+
+public instruction main[] -> i32
+faults [AllocationFailure]
+{
+    cell := HeapCell.alloc(7)
+    return 0
+}

@@ -1,0 +1,8 @@
+staze 3
+module Negative.ImmutableSet
+public instruction main[] -> i32
+{
+    x: i32 := 1
+    set x = 2
+    return x
+}

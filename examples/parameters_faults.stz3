@@ -1,0 +1,20 @@
+staze 3
+module Demo.ParametersFaults
+
+instruction Divide[a: i32, b: i32] -> i32
+faults [DivideByZero, ArithmeticOverflow]
+{
+    return a / b
+}
+
+instruction DivideOr[a: i32, b: i32, fallback: i32] -> i32
+faults [ArithmeticOverflow]
+{
+    return Divide(a, b) bypass DivideByZero using fallback
+}
+
+public instruction main[] -> i32
+faults [ArithmeticOverflow]
+{
+    return DivideOr(42, 0, 7)
+}

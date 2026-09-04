@@ -1,0 +1,75 @@
+staze 3
+module Demo.ArithmeticControl
+
+use Std.IO::{stdout}
+
+fault UserStop
+
+dataset CounterRecord
+{
+    key id: u64
+    amount: i32
+    index amount
+}
+
+dataset Worker
+{
+    key id: u64
+}
+
+relation owns
+[
+    source: CounterRecord,
+    target: Worker
+]
+{
+    source cardinality many
+    target cardinality zero_or_one
+    unique pair
+    reverse index yes
+    ownership none
+}
+
+pool Frame
+    @arena
+    @lifetime(frame)
+    @reclaim(end)
+{
+    scratch: revise i32
+}
+
+instruction AddChecked[a: i32, b: i32] -> i32
+faults [ArithmeticOverflow]
+{
+    return a + b
+}
+
+instruction SafeAdd[a: i32, b: i32] -> i32
+{
+    return AddChecked(a, b) bypass ArithmeticOverflow using 0
+}
+
+public instruction main[] -> i32
+faults [ArithmeticOverflow]
+{
+    i: revise i32 := 0
+    total: revise i32 := 0
+
+    while i < 10
+    {
+        revise total by i
+        revise i by 1
+    }
+
+    set total = total + 0
+
+    if total = 45
+    {
+        perform stdout.write_text("Staze arithmetic/control OK\n") delete IoFailure
+        return SafeAdd(0, 0)
+    }
+    else
+    {
+        return 1
+    }
+}
