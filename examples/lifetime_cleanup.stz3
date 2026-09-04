@@ -1,0 +1,34 @@
+staze 3
+module Examples.LifetimeCleanup
+
+fault AllocationFailure
+
+pool Cell
+    @heap
+    @lifetime(scope)
+    @reclaim(scope)
+{
+    tick: revise i32
+}
+
+public instruction main[] -> i32
+faults [AllocationFailure, ArithmeticOverflow]
+{
+    if true
+    {
+        cell: revise Cell := Cell.alloc(1)
+        set cell.tick = 7
+        revise cell.tick by 1
+        observer := borrow(cell.tick)
+        seen: i32 := cell.tick
+        if seen = 8
+        {
+            return 0
+        }
+        return 2
+    }
+    else
+    {
+        return 1
+    }
+}

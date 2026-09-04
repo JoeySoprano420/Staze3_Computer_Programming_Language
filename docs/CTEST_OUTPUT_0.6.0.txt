@@ -1,0 +1,128 @@
+Internal ctest changing into directory: /mnt/data/StazeCpp23Compiler_0.6.0/build_release
+Test project /mnt/data/StazeCpp23Compiler_0.6.0/build_release
+      Start  7: emit_sirc_fixture
+      Start 15: emit_rich_sirs_fixture
+      Start 18: build_effect_regions_pe
+      Start 26: emit_rich_cardinality_sirc_fixture
+ 1/61 Test  #7: emit_sirc_fixture ...........................   Passed    0.03 sec
+      Start 48: emit_owned_transfer_sirc_fixture
+ 2/61 Test #15: emit_rich_sirs_fixture ......................   Passed    0.03 sec
+      Start 50: emit_dynamic_many_transfer_sirc_fixture
+ 3/61 Test #26: emit_rich_cardinality_sirc_fixture ..........   Passed    0.03 sec
+      Start  1: check_core
+ 4/61 Test #48: emit_owned_transfer_sirc_fixture ............   Passed    0.02 sec
+      Start  2: check_hello
+ 5/61 Test #50: emit_dynamic_many_transfer_sirc_fixture .....   Passed    0.02 sec
+      Start  3: reject_immutable_set
+ 6/61 Test  #1: check_core ..................................   Passed    0.02 sec
+      Start  4: reject_unhandled_overflow
+ 7/61 Test  #2: check_hello .................................   Passed    0.02 sec
+      Start  5: reject_delete_one
+ 8/61 Test  #3: reject_immutable_set ........................   Passed    0.02 sec
+      Start  6: build_pe
+ 9/61 Test  #4: reject_unhandled_overflow ...................   Passed    0.02 sec
+      Start  8: check_detached_sirc
+10/61 Test  #5: reject_delete_one ...........................   Passed    0.02 sec
+      Start  9: build_pe_from_detached_sirc
+11/61 Test  #8: check_detached_sirc .........................   Passed    0.02 sec
+      Start 10: reject_tampered_sirc
+12/61 Test #10: reject_tampered_sirc ........................   Passed    0.02 sec
+      Start 11: check_rich_cardinality
+13/61 Test #11: check_rich_cardinality ......................   Passed    0.02 sec
+      Start 12: check_rich_resources
+14/61 Test #12: check_rich_resources ........................   Passed    0.02 sec
+      Start 13: check_effect_regions
+15/61 Test #13: check_effect_regions ........................   Passed    0.03 sec
+      Start 14: reject_use_after_move
+16/61 Test #14: reject_use_after_move .......................   Passed    0.03 sec
+      Start 16: check_detached_rich_sirs
+17/61 Test #16: check_detached_rich_sirs ....................   Passed    0.02 sec
+      Start 17: check_detached_rich_sirc
+18/61 Test #17: check_detached_rich_sirc ....................   Passed    0.02 sec
+      Start 20: reject_bad_effect_token
+19/61 Test #20: reject_bad_effect_token .....................   Passed    0.03 sec
+      Start 21: reject_missing_move_authority
+20/61 Test #21: reject_missing_move_authority ...............   Passed    0.02 sec
+      Start 22: check_heap_allocation
+21/61 Test #22: check_heap_allocation .......................   Passed    0.02 sec
+      Start 23: check_fault_payload_native
+22/61 Test #18: build_effect_regions_pe .....................   Passed    0.37 sec
+      Start 19: build_effect_regions_from_sirc
+23/61 Test #23: check_fault_payload_native ..................   Passed    0.04 sec
+      Start 24: check_heap_scope_reclaim
+24/61 Test #24: check_heap_scope_reclaim ....................   Passed    0.02 sec
+      Start 25: reject_zero_concrete_size
+25/61 Test #25: reject_zero_concrete_size ...................   Passed    0.02 sec
+      Start 27: check_detached_rich_cardinality_sirc
+26/61 Test #27: check_detached_rich_cardinality_sirc ........   Passed    0.02 sec
+      Start 28: build_rich_cardinality_pe
+27/61 Test  #9: build_pe_from_detached_sirc .................   Passed    0.43 sec
+      Start 29: build_rich_cardinality_from_sirc
+28/61 Test  #6: build_pe ....................................   Passed    0.45 sec
+      Start 30: build_rich_resources_pe
+29/61 Test #19: build_effect_regions_from_sirc ..............   Passed    0.41 sec
+      Start 31: build_heap_allocation_pe
+30/61 Test #28: build_rich_cardinality_pe ...................   Passed    0.42 sec
+      Start 32: build_fault_payload_native_pe
+31/61 Test #29: build_rich_cardinality_from_sirc ............   Passed    0.40 sec
+      Start 33: check_rich_caller_storage
+32/61 Test #30: build_rich_resources_pe .....................   Passed    0.40 sec
+      Start 34: build_rich_caller_storage_pe
+33/61 Test #33: check_rich_caller_storage ...................   Passed    0.02 sec
+      Start 35: check_lifetime_cleanup
+34/61 Test #35: check_lifetime_cleanup ......................   Passed    0.02 sec
+      Start 36: check_loop_scope_cleanup
+35/61 Test #36: check_loop_scope_cleanup ....................   Passed    0.03 sec
+      Start 37: check_dynamic_many
+36/61 Test #37: check_dynamic_many ..........................   Passed    0.03 sec
+      Start 38: check_addressable_fields
+37/61 Test #38: check_addressable_fields ....................   Passed    0.02 sec
+      Start 39: check_static_pool
+38/61 Test #39: check_static_pool ...........................   Passed    0.02 sec
+      Start 40: check_transaction_cleanup
+39/61 Test #40: check_transaction_cleanup ...................   Passed    0.02 sec
+      Start 41: check_borrow_narrowing
+40/61 Test #41: check_borrow_narrowing ......................   Passed    0.03 sec
+      Start 42: check_owned_heap_transfer
+41/61 Test #42: check_owned_heap_transfer ...................   Passed    0.02 sec
+      Start 43: check_dynamic_many_transfer
+42/61 Test #43: check_dynamic_many_transfer .................   Passed    0.02 sec
+      Start 44: reject_widened_borrow_sirs
+43/61 Test #44: reject_widened_borrow_sirs ..................   Passed    0.02 sec
+      Start 45: reject_borrow_return
+44/61 Test #31: build_heap_allocation_pe ....................   Passed    0.41 sec
+      Start 46: reject_implicit_owned_return
+45/61 Test #45: reject_borrow_return ........................   Passed    0.02 sec
+      Start 47: reject_missing_transfer_discharge
+46/61 Test #46: reject_implicit_owned_return ................   Passed    0.02 sec
+      Start 49: check_detached_owned_transfer_sirc
+47/61 Test #47: reject_missing_transfer_discharge ...........   Passed    0.02 sec
+      Start 51: check_detached_dynamic_many_transfer_sirc
+48/61 Test #49: check_detached_owned_transfer_sirc ..........   Passed    0.02 sec
+      Start 52: build_lifetime_cleanup_pe
+49/61 Test #51: check_detached_dynamic_many_transfer_sirc ...   Passed    0.02 sec
+      Start 53: build_loop_scope_cleanup_pe
+50/61 Test #32: build_fault_payload_native_pe ...............   Passed    0.40 sec
+      Start 54: build_dynamic_many_pe
+51/61 Test #34: build_rich_caller_storage_pe ................   Passed    0.38 sec
+      Start 55: build_addressable_fields_pe
+52/61 Test #55: build_addressable_fields_pe .................   Passed    0.32 sec
+      Start 56: build_static_pool_pe
+53/61 Test #52: build_lifetime_cleanup_pe ...................   Passed    0.42 sec
+54/61 Test #53: build_loop_scope_cleanup_pe .................   Passed    0.41 sec
+      Start 57: build_transaction_cleanup_pe
+      Start 58: build_owned_heap_transfer_pe
+55/61 Test #54: build_dynamic_many_pe .......................   Passed    0.40 sec
+      Start 59: build_dynamic_many_transfer_pe
+56/61 Test #57: build_transaction_cleanup_pe ................   Passed    0.37 sec
+      Start 60: build_owned_transfer_from_sirc
+57/61 Test #58: build_owned_heap_transfer_pe ................   Passed    0.37 sec
+      Start 61: build_dynamic_many_transfer_from_sirc
+58/61 Test #56: build_static_pool_pe ........................   Passed    0.43 sec
+59/61 Test #59: build_dynamic_many_transfer_pe ..............   Passed    0.44 sec
+60/61 Test #60: build_owned_transfer_from_sirc ..............   Passed    0.34 sec
+61/61 Test #61: build_dynamic_many_transfer_from_sirc .......   Passed    0.34 sec
+
+100% tests passed, 0 tests failed out of 61
+
+Total Test time (real) =   2.39 sec

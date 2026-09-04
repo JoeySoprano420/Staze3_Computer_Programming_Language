@@ -1,40 +1,32 @@
-# STZ-3 Compiler 0.5.0 — Implementation Status
+# STZ-3 Compiler 0.6.0 — Implementation Status
 
-| Area | Status | Notes |
-|---|---|---|
-| Lexer/parser | Milestone subset | Existing 0.4 grammar plus 0.5 heap constraints |
-| SSL/DLE | Active | SIR-S meaning unchanged; concrete selection added after SIR-S |
-| Canonical SIR-S | Implemented milestone | Detached semantic SSA/CFG/fault/effect/resource graph |
-| Canonical SIR-C | **3.0 implemented** | Detached concrete Windows x86-64 representation plan |
-| register scalar placement | Implemented | exact-One scalar values |
-| rich stack placement | Implemented | fixed-size rich temporaries |
-| caller rich return storage | Implemented | hidden result pointer |
-| rich parameters | Implemented | passed by address |
-| pool/arena placement | Implemented | explicit `@arena` pool values |
-| explicit heap placement | Implemented | `GetProcessHeap` + `HeapAlloc` |
-| automatic heap reclaim | **Not yet** | 0.5 requires `@reclaim(manual)` for `@heap` |
-| allocation failure | Implemented milestone | null pointer routes to `AllocationFailure` SIR edge |
-| optional layout | Implemented | tag + aligned payload |
-| Many layout | Implemented for compiler-bounded capacity | length + inline elements; phi capacity promotion |
-| dynamic/growing Many | Not yet | needs explicit allocator/reallocation semantics |
-| dataset aggregate layout | Implemented | size/alignment/field offsets |
-| choice layout | Implemented | i32 tag + max aligned payload |
-| rich phi | Implemented | pointer phi over agreed concrete representation |
-| typed fault payload transport | Implemented | caller-owned byte buffer |
-| escape analysis | Implemented conservative milestone | return/fault/call escape + alias propagation |
-| scalar replacement | Implemented narrow milestone | nonescaping aggregate/choice semantic-only uses |
-| provenance/authority/effect SSA | Retained and verified | from 0.4 |
-| relation runtime storage | Not yet | semantic/effect operation only |
-| transaction rollback/durability | Not yet | semantic/effect regions only |
-| parallel scheduler | Not yet | semantic/effect regions only |
-| LLVM backend | Implemented for stated 0.5 subset | consumes SIR-C concrete plans |
-| x86-64 COFF | Implemented | generated with Clang target backend |
-| PE32+ link | Implemented | `lld-link`, KERNEL32 import library |
+## Implemented in this milestone
 
-## Executed placement fixtures
+| Capability | Status |
+|---|---|
+| Path-sensitive resource cleanup | Implemented |
+| HeapFree proof/discharge | Implemented |
+| `@heap @reclaim(scope)` | Implemented for supported unique-resource pools |
+| Arena/stack lifetime markers | Implemented |
+| Static pool placement | Implemented |
+| Dynamic `Many<T>` descriptor | Implemented |
+| Checked dynamic Many growth | Implemented |
+| Old-buffer reclamation on growth | Implemented |
+| Addressable aggregate fields | Implemented |
+| Field read/write/address | Implemented |
+| Subobject provenance | Implemented |
+| Borrow lifetime narrowing | Implemented + verifier enforced |
+| Borrowed result across function boundary | Rejected pending explicit lifetime ABI |
+| Explicit owned heap result transfer | Implemented |
+| Explicit dynamic Many result transfer | Implemented |
+| Caller resource re-ownership | Implemented |
+| Missing transfer corruption rejection | Implemented |
+| Detached SIR-C → native backend | Implemented |
 
-- Register: every scalar arithmetic/control program.
-- Stack: rich cardinality and aggregate temporaries.
-- Caller: `rich_caller_storage.stz3` and rich return functions in `rich_cardinality.stz3`.
-- Pool-arena: `rich_resources.stz3` / `Frame`.
-- Heap: `heap_allocation.stz3` / `HeapCell`.
+## Earlier supported compiler slices retained
+
+Typed bindings/parameters, checked integer arithmetic, control flow, `set`/`revise`, closed faults, typed fault payloads, `bypass`/`delete` cardinality handling, datasets, choices, pools, relations, authority, provenance, effect-token SSA, transactions/parallel region markers, rich representation lowering, COFF/PE generation.
+
+## Not claimed complete
+
+General shared ownership/reference counting, tracing GC, arbitrary cross-boundary borrowed references, fully dynamic generalized container library, nested resource destructors, complete transaction rollback/durability, production concurrency scheduler, complete STZ-3 standard-library/runtime coverage, and all optimizer passes.

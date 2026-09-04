@@ -1,0 +1,22 @@
+staze 3
+module Examples.BorrowNarrowing
+
+dataset Pair
+{
+    left: i32
+    right: i32
+}
+
+public instruction main[] -> i32
+{
+    item := Pair(1, 2)
+    if true
+    {
+        observed := borrow(item.left)
+        return 0
+    }
+    else
+    {
+        return 1
+    }
+}

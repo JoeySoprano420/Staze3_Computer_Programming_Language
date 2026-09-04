@@ -1,0 +1,8 @@
+[1/8] Building CXX object CMakeFiles/stazec.dir/src/lexer.cpp.o
+[2/8] Building CXX object CMakeFiles/stazec.dir/src/main.cpp.o
+[3/8] Building CXX object CMakeFiles/stazec.dir/src/parser.cpp.o
+[4/8] Building CXX object CMakeFiles/stazec.dir/src/toolchain.cpp.o
+[5/8] Building CXX object CMakeFiles/stazec.dir/src/llvm_x64.cpp.o
+[6/8] Building CXX object CMakeFiles/stazec.dir/src/semantic.cpp.o
+[1/2] Building CXX object CMakeFiles/stazec.dir/src/sir.cpp.o
+[2/2] Linking CXX executable stazec

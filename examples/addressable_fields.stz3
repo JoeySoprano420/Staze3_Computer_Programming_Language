@@ -1,0 +1,20 @@
+staze 3
+module Examples.AddressableFields
+
+
+dataset Pair
+{
+    alpha: revise i32
+    beta: revise i32
+}
+
+public instruction main[] -> i32
+faults [ArithmeticOverflow]
+{
+    item: revise Pair := Pair(1, 2)
+    set item.alpha = 10
+    revise item.beta by 3
+    watch := borrow(item.beta)
+    result: i32 := item.beta
+    return result
+}

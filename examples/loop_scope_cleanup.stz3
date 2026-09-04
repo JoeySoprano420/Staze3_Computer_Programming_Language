@@ -1,0 +1,30 @@
+staze 3
+module Examples.LoopScopeCleanup
+
+fault AllocationFailure
+
+pool IterCell
+    @heap
+    @lifetime(scope)
+    @reclaim(scope)
+{
+    tick: revise i32
+}
+
+public instruction main[] -> i32
+faults [AllocationFailure, ArithmeticOverflow]
+{
+    i: revise i32 := 0
+    while i < 3
+    {
+        cell: revise IterCell := IterCell.alloc(i)
+        revise cell.tick by 1
+        revise i by 1
+        if i < 3
+        {
+            continue
+        }
+        break
+    }
+    return i
+}

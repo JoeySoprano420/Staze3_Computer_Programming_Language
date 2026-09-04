@@ -1,0 +1,27 @@
+staze 3
+module Examples.OwnedHeapTransfer
+
+fault AllocationFailure
+
+pool Cell
+    @heap
+    @lifetime(scope)
+    @reclaim(scope)
+{
+    tick: revise i32
+}
+
+instruction MakeCell[x: i32] -> Cell
+faults [AllocationFailure]
+{
+    cell: revise Cell := Cell.alloc(x)
+    return move(cell)
+}
+
+public instruction main[] -> i32
+faults [AllocationFailure]
+{
+    cell: revise Cell := MakeCell(7)
+    set cell.tick = 9
+    return cell.tick
+}

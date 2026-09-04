@@ -1,0 +1,23 @@
+staze 3
+module Examples.TransactionCleanup
+
+fault AllocationFailure
+
+pool TxCell
+    @heap
+    @lifetime(transaction)
+    @reclaim(scope)
+{
+    tick: revise i32
+}
+
+public instruction main[] -> i32
+faults [AllocationFailure]
+{
+    transaction
+    {
+        cell: revise TxCell := TxCell.alloc(11)
+        set cell.tick = 12
+    }
+    return 0
+}

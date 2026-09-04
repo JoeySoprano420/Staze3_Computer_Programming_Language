@@ -1,0 +1,17 @@
+staze 3
+module Examples.StaticPool
+
+pool GlobalCell
+    @static
+    @lifetime(static)
+    @reclaim(manual)
+{
+    tick: revise i32
+}
+
+public instruction main[] -> i32
+{
+    cell: revise GlobalCell := GlobalCell.alloc(9)
+    set cell.tick = 10
+    return cell.tick
+}

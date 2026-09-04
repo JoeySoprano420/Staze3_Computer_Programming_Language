@@ -1,0 +1,25 @@
+staze 3
+module Examples.DynamicManyTransfer
+
+fault AllocationFailure
+
+instruction MakeList[] -> list<i32>
+faults [AllocationFailure, ArithmeticOverflow]
+{
+    xs: revise list<i32> := dynamic_many(1u64)
+    perform many.push(xs, 10)
+    return move(xs)
+}
+
+public instruction main[] -> i32
+faults [AllocationFailure, ArithmeticOverflow]
+{
+    xs: revise list<i32> := MakeList()
+    perform many.push(xs, 20)
+    n: u64 := many.length(xs)
+    if n = 2u64
+    {
+        return 0
+    }
+    return 1
+}

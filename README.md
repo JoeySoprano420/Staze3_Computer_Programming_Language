@@ -1,151 +1,71 @@
-# Staze C++23 Compiler 0.5.0 — Concrete Rich Representation Lowering
+# Staze C++23 Compiler 0.6.0 — Lifetime & Resource Realization
 
-**Platform target:** Windows x86-64 / PE32+  
-**Host implementation:** C++23  
-**Native path:** detached SIR-C 3.0 → LLVM IR → x86-64 COFF → PE32+  
-**Status:** implementation milestone toward full STZ-3, not a claim of complete language coverage.
+Compiler 0.6 makes Staze resource lifetimes executable. SIR-S remains the semantic contract; SIR-C 4.x now records the concrete resource obligations, cleanup edges, ownership transfers, field addresses, dynamic collection state, and storage realization that the Windows x86-64 backend must obey.
 
-Compiler 0.5 keeps Compiler 0.4's SIR-S meaning intact and moves physical decisions into target concretization. SIR-C 3.0 now records the concrete representation plan that the LLVM backend must obey.
-
-## The architectural rule
+## Canonical pipeline
 
 ```text
-SIR-S
-    says what the Staze program means
-
-        ↓ TargetConcretizer / DLE realization
-
-SIR-C 3.0
-    says how that meaning is represented on Windows x86-64
-
-        ↓ independent verifier
-
-LLVM backend
-    realizes the already-selected representation
-
-        ↓
-
-COFF → PE32+ .exe
+.stz3 → AST → SSL-3 → DLE-3 → canonical SIR-S
+     → serialize/deserialize → independent SIR-S verification
+     → SIR-C 4.x resource/representation realization
+     → serialize/deserialize → independent SIR-C verification
+     → LLVM IR → x86-64 COFF → PE32+ .exe
 ```
 
-LLVM is deliberately not asked to invent Staze cardinality, ownership, aggregate, fault, pool, or allocation semantics.
+LLVM is downstream of resource proof. It does not decide whether an owned allocation must be freed, transferred, or retained.
 
-## New in 0.5
+## 0.6 capabilities
 
-### Concrete storage classes
+- path-sensitive cleanup insertion on normal, fault, branch, `break`, `continue`, and transaction-region exits;
+- proven `HeapFree` for automatic `@heap @reclaim(scope)` resources;
+- automatic arena/stack lifetime end realization;
+- dynamic `Many<T>` as `{data,length,capacity}` with checked growth and replacement of the same ownership obligation;
+- addressable aggregate fields with serialized byte offsets;
+- field load/store and field-address operations;
+- subobject provenance and borrowed field addresses;
+- borrow lifetime narrowing to the shortest valid owner/lexical region;
+- explicit owned-resource transfer across instruction returns/calls;
+- caller re-ownership of transferred heap objects and dynamic `Many<T>` buffers;
+- static pool placement with no dynamic cleanup;
+- independent corruption checks for cleanup, transfer, provenance, authority, effect tokens, and representation plans.
 
-SIR-C can choose and serialize:
+## Ownership-transfer rule
 
-- `register` — exact-One scalar values.
-- `stack` — fixed-size rich temporaries/local materializations.
-- `caller` — rich parameters and caller-provided rich return storage.
-- `pool-arena` — values allocated from explicit arena-style Staze pools.
-- `heap` — explicit `@heap` pool allocations.
-- `alias` — borrow/move/revision aliases preserving underlying storage/provenance.
-
-A `static` enum is reserved in the representation model, but full static-storage lowering is not claimed in 0.5.
-
-### Concrete rich layouts
-
-- `ZeroOrOne<T>` → `{ present: u8, padding, payload: T }`.
-- compiler-bounded `Many<T>` → `{ length: u64, inline_elements[N] }`.
-- datasets/pool records → explicit size, alignment, and field-offset tables.
-- choices → explicit `i32` tag plus aligned maximum payload storage.
-- text remains a 16-byte target view contract.
-
-Cardinality remains semantic in SIR-S. These layouts are SIR-C choices, not language definitions.
-
-### Native rich ABI
-
-Scalar functions retain the status/payload scalar convention plus hidden fault storage.
-
-Rich-return functions use caller storage:
+Returning an owned resource requires an explicit `move(...)`. A resource return is not represented as “skip the free.” SIR-S declares an `owned-transfer` result contract; SIR-C records a transfer discharge on the callee success edge; the native ABI passes ownership-bearing state to caller storage; the caller installs a fresh cleanup obligation.
 
 ```text
-status:i32 fn(result_out:ptr, fault_out:ptr, ...)
+callee obligation ──move/transfer──► caller obligation
+       │                                 │
+ success: no free                    later lifetime exit
+       │                                 │
+       └────────────────────────────────►HeapFree/current-buffer cleanup
 ```
 
-Rich parameters are passed by address. The included `rich_caller_storage.stz3` fixture exercises both directions.
+Borrow returns remain deliberately rejected until Staze has an explicit cross-boundary borrow-lifetime ABI.
 
-### Native typed fault payloads
-
-Every call chain receives caller-owned fault payload storage sized/aligned from the closed fault schemas. A direct typed fault writes its payload into that storage before returning nonzero status. Propagation does not overwrite the buffer.
-
-Example `fault Missing { value: i32 }` with `fault Missing(42)` becomes a real native `store i32 42` into `%fault_out`.
-
-### Escape analysis and scalar replacement
-
-Target concretization builds use sets and marks rich values escaping through returns, rich calls, and aliases. Escape information propagates through `borrow`, `move`, revision aliases, and phi values.
-
-A deliberately narrow scalar-replacement rule currently eliminates nonescaping dataset/choice constructions whose only remaining uses are semantic borrow/move/relation operations. Escaping values remain materialized.
-
-### Explicit heap allocation failure
-
-An `@heap` pool allocation exposes `AllocationFailure` as an ordinary closed Staze fault. Native lowering uses `GetProcessHeap` / `HeapAlloc`, checks the returned pointer, and follows the SIR fault edge when allocation returns null.
-
-Compiler 0.5 does **not** invent automatic heap reclamation. Therefore `@heap` is temporarily accepted only with `@reclaim(manual)`. Automatic scope/lifetime reclamation belongs to the next resource-runtime milestone.
-
-## Example commands
-
-Build the compiler:
+## Build
 
 ```bat
 cmake -S . -B build -A x64
 cmake --build build --config Release
+build\Release\stazec.exe examples\owned_heap_transfer.stz3 -o owned_heap_transfer.exe
 ```
 
-Compile Staze directly to PE32+:
+On environments with Clang/lld-link, the bootstrap PE backend can also be exercised directly. `STAZE_CLANG` and `STAZE_LLD_LINK` override tool locations.
+
+## Detached compilation
 
 ```bat
-build\Release\stazec.exe examples\rich_cardinality.stz3 -o rich_cardinality.exe
+stazec examples\owned_heap_transfer.stz3 --check --emit-sir-c owned.sirc
+stazec --from-sir-c owned.sirc -o owned.exe
 ```
 
-Inspect the concrete plan without building:
+The detached invocation creates no lexer, parser, AST, SSL, DLE, or SIR-S object.
 
-```bat
-build\Release\stazec.exe examples\rich_resources.stz3 --check --emit-sir-c rich_resources.sirc
-```
+## Validation
 
-Compile a detached concrete artifact, with no source/AST/SSL/DLE present:
+The clean Release build was compiled with `-Wall -Wextra -Wpedantic`: **0 warnings, 0 errors**. The expanded conformance suite passes **61/61 tests**. See `docs/TEST_REPORT.md` and `docs/CTEST_OUTPUT_0.6.0.txt`.
 
-```bat
-build\Release\stazec.exe --from-sir-c rich_resources.sirc -o rich_resources.exe
-```
+## Important current boundary
 
-## Current native examples
-
-- `rich_cardinality.stz3` — optional + Many + delete recovery reaches PE.
-- `rich_resources.stz3` — dataset, choice, borrow/move, arena pool, relations/transaction markers reach PE.
-- `rich_caller_storage.stz3` — rich aggregate return + rich aggregate parameter reaches PE.
-- `heap_allocation.stz3` — explicit heap placement + AllocationFailure reaches PE.
-- `fault_payload_native.stz3` — typed fault payload transport reaches PE.
-- all prior scalar/control/effect fixtures continue to build.
-
-## Deliberate 0.5 boundaries
-
-The following are not falsely claimed as complete:
-
-- dynamically growing/unknown-length `Many<T>` allocation;
-- automatic heap reclamation / `HeapFree` scheduling from lifetime proof;
-- full field projection/mutation for arbitrary aggregates;
-- general borrow-address dereference machinery;
-- native runtime relation storage;
-- transaction rollback/durability machinery;
-- real parallel worker scheduling/data-race proof;
-- production SIR ABI stability;
-- full STZ-3 language surface.
-
-These are next-stage work, not silently delegated to C++ containers or a hidden runtime.
-
-## Documents
-
-- `docs/CONCRETE_RICH_LOWERING.md` — full 0.5 architecture and layout rules.
-- `docs/SIR_C_3_FORMAT.md` — concrete artifact records and boundary.
-- `docs/IMPLEMENTATION_STATUS.md` — precise support matrix.
-- `docs/TEST_REPORT.md` — clean-build and conformance results.
-- `docs/ROADMAP.md` — next implementation milestone.
-- `docs/RICH_SEMANTIC_SSA.md` — retained 0.4 semantic foundation.
-
-## Core principle
-
-> **SIR-S preserves meaning. SIR-C chooses representation. The verifier checks the choice. LLVM only realizes it.**
+Compiler 0.6 supports automatic unique-resource cleanup and explicit ownership transfer for the implemented heap-pool and dynamic-Many families. It does not yet claim general shared ownership, reference counting, tracing GC, arbitrary cross-boundary borrowed references, complete transaction rollback, or a universal destructor model.
