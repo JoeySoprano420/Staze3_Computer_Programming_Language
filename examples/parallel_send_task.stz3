@@ -1,0 +1,27 @@
+staze 3
+module Examples.ParallelSendTask
+
+fault AllocationFailure
+
+pool Cell
+    @heap
+    @lifetime(call)
+    @reclaim(scope)
+{
+    tick: i32
+}
+
+public instruction main[] -> i32
+faults [AllocationFailure]
+{
+    cell := Cell.alloc(5)
+    handoff := send(cell)
+    parallel
+    {
+        task
+        {
+            observed: i32 := handoff.tick
+        }
+    }
+    return 0
+}

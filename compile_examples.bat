@@ -2,16 +2,33 @@
 setlocal
 set STAZEC=build\Release\stazec.exe
 if not exist "%STAZEC%" (
-  echo stazec.exe not found. Run build_windows.bat first.
+  echo stazec.exe not found. Run build_windows_x64.bat first.
   exit /b 1
 )
-"%STAZEC%" examples\hello.stz3 -o hello.exe || exit /b 1
-"%STAZEC%" examples\arithmetic_control.stz3 -o arithmetic_control.exe || exit /b 1
-"%STAZEC%" examples\rich_cardinality.stz3 -o rich_cardinality.exe || exit /b 1
-"%STAZEC%" examples\rich_resources.stz3 -o rich_resources.exe || exit /b 1
-"%STAZEC%" examples\rich_caller_storage.stz3 -o rich_caller_storage.exe || exit /b 1
-"%STAZEC%" examples\heap_allocation.stz3 -o heap_allocation.exe || exit /b 1
-"%STAZEC%" examples\fault_payload_native.stz3 -o fault_payload_native.exe || exit /b 1
+
+for %%E in (
+  hello
+  arithmetic_control
+  rich_cardinality
+  rich_resources
+  lifetime_cleanup
+  dynamic_many
+  owned_heap_transfer
+  borrow_cross_boundary
+  shared_scope
+  partial_field_move
+  transaction_field_undo
+  transaction_observable_rollback
+  transaction_resource_abort
+  transaction_shared_abort
+  parallel_tasks
+  parallel_shared_task
+  parallel_send_task
+) do (
+  echo Building %%E.exe...
+  "%STAZEC%" "examples\%%E.stz3" -o "%%E.exe" || exit /b 1
+)
+
 echo.
-echo Built scalar and Compiler 0.5 rich representation examples.
+echo All representative Compiler 0.8.0 examples built successfully.
 endlocal

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(StazeCpp23Compiler VERSION 0.7.0 LANGUAGES CXX)
+project(StazeCpp23Compiler VERSION 0.8.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -215,3 +215,100 @@ set_tests_properties(reject_07_bad_rollback PROPERTIES WILL_FAIL TRUE)
 add_test(NAME reject_07_bad_cross_borrow
          COMMAND stazec --from-sir-c ${CMAKE_SOURCE_DIR}/tests/invalid_sirc07_bad_cross_borrow.sirc --check)
 set_tests_properties(reject_07_bad_cross_borrow PROPERTIES WILL_FAIL TRUE)
+
+# Compiler 0.8.0 — executable transaction undo + structured task/capture SIR-C 6.0.
+set(STAZE08_EXAMPLES
+    transaction_field_undo
+    transaction_observable_rollback
+    transaction_resource_abort
+    transaction_shared_abort
+    parallel_tasks
+    parallel_shared_task
+    parallel_send_task
+)
+foreach(staze08_example IN LISTS STAZE08_EXAMPLES)
+    add_test(NAME check_08_${staze08_example}
+             COMMAND stazec ${CMAKE_SOURCE_DIR}/examples/${staze08_example}.stz3 --check)
+
+    add_test(NAME emit_08_${staze08_example}_sirc
+             COMMAND stazec ${CMAKE_SOURCE_DIR}/examples/${staze08_example}.stz3 --check
+                    --emit-sir-c ${CMAKE_BINARY_DIR}/${staze08_example}.08.sirc)
+    set_tests_properties(emit_08_${staze08_example}_sirc PROPERTIES
+                         FIXTURES_SETUP sirc08_${staze08_example})
+
+    add_test(NAME check_08_${staze08_example}_detached
+             COMMAND stazec --from-sir-c ${CMAKE_BINARY_DIR}/${staze08_example}.08.sirc --check)
+    set_tests_properties(check_08_${staze08_example}_detached PROPERTIES
+                         FIXTURES_REQUIRED sirc08_${staze08_example})
+
+    if (STAZE_TEST_CLANG AND STAZE_TEST_LLD_LINK)
+        add_test(NAME build_08_${staze08_example}_source
+                 COMMAND stazec ${CMAKE_SOURCE_DIR}/examples/${staze08_example}.stz3
+                         -o ${CMAKE_BINARY_DIR}/${staze08_example}.08.source.exe
+                         --emit-sir-c ${CMAKE_BINARY_DIR}/${staze08_example}.08.native.sirc
+                         --emit-llvm ${CMAKE_BINARY_DIR}/${staze08_example}.08.source.ll)
+        set_tests_properties(build_08_${staze08_example}_source PROPERTIES
+                             FIXTURES_SETUP native08_${staze08_example}
+                             ENVIRONMENT "STAZE_CLANG=${STAZE_TEST_CLANG};STAZE_LLD_LINK=${STAZE_TEST_LLD_LINK}")
+
+        add_test(NAME build_08_${staze08_example}_detached
+                 COMMAND stazec --from-sir-c ${CMAKE_BINARY_DIR}/${staze08_example}.08.native.sirc
+                         -o ${CMAKE_BINARY_DIR}/${staze08_example}.08.detached.exe
+                         --emit-llvm ${CMAKE_BINARY_DIR}/${staze08_example}.08.detached.ll)
+        set_tests_properties(build_08_${staze08_example}_detached PROPERTIES
+                             FIXTURES_REQUIRED native08_${staze08_example}
+                             ENVIRONMENT "STAZE_CLANG=${STAZE_TEST_CLANG};STAZE_LLD_LINK=${STAZE_TEST_LLD_LINK}")
+
+        add_test(NAME compare_08_${staze08_example}_llvm
+                 COMMAND ${CMAKE_COMMAND} -E compare_files
+                         ${CMAKE_BINARY_DIR}/${staze08_example}.08.source.ll
+                         ${CMAKE_BINARY_DIR}/${staze08_example}.08.detached.ll)
+        set_tests_properties(compare_08_${staze08_example}_llvm PROPERTIES
+                             DEPENDS "build_08_${staze08_example}_source;build_08_${staze08_example}_detached")
+    endif()
+endforeach()
+
+# Explicit SIR-S 5.x -> detached target concretization proof for one transaction and one task graph.
+foreach(staze08_sirs_example IN ITEMS transaction_observable_rollback parallel_shared_task)
+    add_test(NAME emit_08_${staze08_sirs_example}_sirs
+             COMMAND stazec ${CMAKE_SOURCE_DIR}/examples/${staze08_sirs_example}.stz3 --check
+                    --emit-sir-s ${CMAKE_BINARY_DIR}/${staze08_sirs_example}.08.sirs
+                    --emit-sir-c ${CMAKE_BINARY_DIR}/${staze08_sirs_example}.08.source-from-sirs.sirc)
+    set_tests_properties(emit_08_${staze08_sirs_example}_sirs PROPERTIES
+                         FIXTURES_SETUP sirs08_${staze08_sirs_example})
+    add_test(NAME concretize_08_${staze08_sirs_example}_detached_sirs
+             COMMAND stazec --from-sir-s ${CMAKE_BINARY_DIR}/${staze08_sirs_example}.08.sirs --check
+                    --emit-sir-c ${CMAKE_BINARY_DIR}/${staze08_sirs_example}.08.detached-from-sirs.sirc)
+    set_tests_properties(concretize_08_${staze08_sirs_example}_detached_sirs PROPERTIES
+                         FIXTURES_REQUIRED sirs08_${staze08_sirs_example})
+    add_test(NAME compare_08_${staze08_sirs_example}_sirc
+             COMMAND ${CMAKE_COMMAND} -E compare_files
+                    ${CMAKE_BINARY_DIR}/${staze08_sirs_example}.08.source-from-sirs.sirc
+                    ${CMAKE_BINARY_DIR}/${staze08_sirs_example}.08.detached-from-sirs.sirc)
+    set_tests_properties(compare_08_${staze08_sirs_example}_sirc PROPERTIES
+                         DEPENDS "emit_08_${staze08_sirs_example}_sirs;concretize_08_${staze08_sirs_example}_detached_sirs")
+endforeach()
+
+add_test(NAME reject_08_task_outside_parallel COMMAND stazec ${CMAKE_SOURCE_DIR}/tests/negative_task_outside_parallel.stz3 --check)
+set_tests_properties(reject_08_task_outside_parallel PROPERTIES WILL_FAIL TRUE)
+add_test(NAME reject_08_task_mutation COMMAND stazec ${CMAKE_SOURCE_DIR}/tests/negative_task_mutation.stz3 --check)
+set_tests_properties(reject_08_task_mutation PROPERTIES WILL_FAIL TRUE)
+add_test(NAME reject_08_transaction_loop COMMAND stazec ${CMAKE_SOURCE_DIR}/tests/negative_transaction_loop.stz3 --check)
+set_tests_properties(reject_08_transaction_loop PROPERTIES WILL_FAIL TRUE)
+add_test(NAME reject_08_transaction_release COMMAND stazec ${CMAKE_SOURCE_DIR}/tests/negative_transaction_release.stz3 --check)
+set_tests_properties(reject_08_transaction_release PROPERTIES WILL_FAIL TRUE)
+
+add_test(NAME reject_08_bad_undo_kind COMMAND stazec --from-sir-c ${CMAKE_SOURCE_DIR}/tests/invalid_sirc08_bad_undo_kind.sirc --check)
+set_tests_properties(reject_08_bad_undo_kind PROPERTIES WILL_FAIL TRUE)
+add_test(NAME reject_08_bad_undo_offset COMMAND stazec --from-sir-c ${CMAKE_SOURCE_DIR}/tests/invalid_sirc08_bad_undo_offset.sirc --check)
+set_tests_properties(reject_08_bad_undo_offset PROPERTIES WILL_FAIL TRUE)
+add_test(NAME reject_08_bad_task_end COMMAND stazec --from-sir-c ${CMAKE_SOURCE_DIR}/tests/invalid_sirc08_bad_task_end.sirc --check)
+set_tests_properties(reject_08_bad_task_end PROPERTIES WILL_FAIL TRUE)
+add_test(NAME reject_08_bad_task_capture COMMAND stazec --from-sir-c ${CMAKE_SOURCE_DIR}/tests/invalid_sirc08_bad_task_capture.sirc --check)
+set_tests_properties(reject_08_bad_task_capture PROPERTIES WILL_FAIL TRUE)
+
+# Final 0.8 hardening: a detached semantic task capture may not outlive the
+# captured SSA value's lifetime region, even if all other task metadata is valid.
+add_test(NAME reject_08_task_capture_lifetime
+         COMMAND stazec --from-sir-s ${CMAKE_SOURCE_DIR}/tests/invalid_sirs08_task_capture_lifetime.sirs --check)
+set_tests_properties(reject_08_task_capture_lifetime PROPERTIES WILL_FAIL TRUE)

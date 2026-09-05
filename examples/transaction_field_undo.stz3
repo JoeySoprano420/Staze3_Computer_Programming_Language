@@ -1,0 +1,21 @@
+staze 3
+module Examples.TransactionFieldUndo
+
+dataset Pair
+{
+    left: revise i32
+    right: i32
+}
+
+public instruction main[] -> i32
+faults [ArithmeticOverflow]
+{
+    item: revise Pair := Pair(1, 2)
+    transaction
+    {
+        set item.left = 9
+        x: i32 := 2147483647
+        y: i32 := x + 1
+    }
+    return item.left
+}

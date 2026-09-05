@@ -1,72 +1,145 @@
-# Staze C++23 Compiler 0.7.0 — Deep Ownership & SIR-C 5.0
+# Staze C++23 Compiler 0.8.0 — Transactional State & Structured Concurrency Realization
 
-Compiler 0.7.0 extends the detached Staze compiler architecture with cross-boundary borrow contracts, mutable/shared borrow modes, shared heap ownership, explicit retain/release, send-capability transitions, partial field moves, concrete resource composition, transaction rollback obligations, and SIR-C 5.0.
+Compiler 0.8.0 is the next executable STZ-3 compiler milestone built on the detached semantic/concrete IR boundary established in 0.3–0.7.
 
-## Compiler architecture
+The defining 0.8 change is that transaction rollback and structured task regions are no longer merely semantic annotations. They are represented in canonical SIR-S, concretized into verifier-backed SIR-C 6.0 plans, serialized/deserialized as standalone artifacts, independently verified, and realized by the Windows x86-64 LLVM/COFF/PE backend.
+
+## Architecture
 
 ```text
 .stz3
   -> Lexer / Parser / AST
-  -> SSL-3
-  -> DLE-3
-  -> canonical SIR-S 4.x
-  -> serialize / deserialize / independent verify
-  -> SIR-C 5.0
-  -> serialize / deserialize / independent verify
-  -> LLVM
+  -> SSL-3 milestone facts
+  -> DLE-3 milestone lowering
+  -> canonical SIR-S 5.x
+       * SSA / CFG / phi
+       * faults + payloads
+       * effect-token SSA
+       * lifetime / provenance / ownership / authority
+       * borrow + ownership graphs
+       * transaction regions + rollback obligations
+       * parallel/task regions + capture contracts
+  -> serialize
+  -> deserialize into a fresh graph
+  -> independent SIR-S verification
+  -> SIR-C 6.0 target concretization
+       * storage/layout/ABI plans
+       * cleanup/resource obligations
+       * executable transaction undo plans
+       * structured task plans + concrete captures
+  -> serialize
+  -> deserialize into a fresh graph
+  -> independent SIR-C verification
+  -> LLVM IR
   -> x86-64 COFF
-  -> Windows PE32+
+  -> Windows PE32+ .exe
 ```
 
-The backend can also start directly from a standalone `.sirc` artifact. In that mode it never constructs source tokens, AST, SSL, DLE, or SIR-S objects.
+The backend can also begin directly from `.sirs` or `.sirc`. A `.sirc -> LLVM -> COFF -> PE` invocation never constructs source tokens, AST, SSL, DLE, or SIR-S objects.
 
-## 0.7 ownership features
+## 0.8 transaction realization
 
-- `@borrow_from(parameter)` shared-read returned borrow contract;
-- `@borrow_mut_from(parameter)` unique mutable returned borrow contract;
-- `borrow` / `borrow_mut` parameter authority modes;
-- explicit borrow graph and cross-boundary borrow edges;
-- `retain(...)` / `share(...)` for shared ownership;
-- `release(...)` for explicit manual resource/shared release;
-- `@ownership(shared)` heap pools with atomic refcount header;
-- shared result transfer ABI;
-- `send(...)` ownership transition;
-- partial resource field move (`move(owner.field)`);
-- concrete resource-component records with `absorbed_by` proof;
-- transaction rollback obligation serialization;
-- provenance-chain verification diagnostics.
+A transaction is represented by a semantic region plus rollback obligations. SIR-C 6.0 resolves each obligation into a concrete undo action. The reference backend reserves undo state in the function frame, arms actions only after the corresponding effect occurs, executes armed actions in reverse order on `transaction.abort`, and disarms them on commit.
 
-## SIR-C 5 proof loop
+Native undo actions in the 0.8 reference profile include:
 
-The final 0.7 acceptance loop is clean:
+- field-byte restoration;
+- destruction of a resource created inside the transaction;
+- shared-retain compensation;
+- ownership restoration for move/send/field-move transitions.
 
-```text
-compiler warnings: 0
-compiler errors:   0
-CTest:             113 / 113 passed
+The semantic IR also retains relation inverse obligations. The current Windows reference relation provider remains effect-ordered/abstract, so relation-link/unlink have no native table state in 0.8 and therefore no observable bytes to restore. This is explicitly documented rather than presented as a native relation database implementation.
+
+Reference transactions are deliberately **single-pass and statically bounded**. Nested transactions, `while`/`loop`, irreversible explicit `release`, and dynamic-Many mutation inside a transaction are rejected by the 0.8 profile rather than accepted without a sound undo-log model.
+
+## 0.8 structured task realization
+
+```stz3
+parallel
+{
+    task
+    {
+        // immutable captures are inferred and recorded
+    }
+}
 ```
 
-Eight new 0.7 programs are built both from source and again from their detached SIR-C. For every pair, generated LLVM is byte-identical, and both paths produce valid Windows x86-64 PE32+ executables.
+SIR-S records every task region and every captured SSA value. Capture modes are explicit:
 
-Four deliberately corrupted SIR-C 5 artifacts are also rejected before LLVM: bad shared ownership, broken component absorption, rollback mismatch, and corrupted cross-boundary borrow metadata.
+- `copy-read` for immutable non-resource values;
+- `shared-read` for explicitly shared resources;
+- `send` for ownership transfer into the task region.
 
-See:
-- `docs/SIR_C_5_LOOP_REPORT.md`
-- `docs/SIR_C_5_FORMAT.md`
-- `docs/TEST_REPORT_0.7.0.md`
-- `docs/CTEST_OUTPUT_0.7.0.txt`
-- `docs/BUILD_OUTPUT_0.7.0.txt`
+The verifier checks capture mode, provenance, authority, task/parallel nesting, and lifetime containment. A task capture is invalid if the task region outlives the captured value's region.
+
+SIR-C 6.0 binds each semantic task region to exact `TaskBegin` / `TaskEnd` operations and preserves each capture contract in a concrete task plan.
+
+The Windows x86-64 **reference task scheduler is deterministic structured execution**: task regions execute in source-declared order and all tasks are joined before the enclosing parallel region exits. This is a fully executable profile, but it deliberately does not claim OS-thread parallelism. The detached IR preserves the information required for a later genuinely concurrent scheduler.
+
+## Retained 0.7 ownership model
+
+0.8 retains and verifies:
+
+- `@borrow_from(parameter)` and `@borrow_mut_from(parameter)`;
+- shared-read and unique-mut borrow graphs;
+- partial resource field moves;
+- explicit `retain` / `share` / `release`;
+- `@ownership(shared)` heap pools with native atomic refcounting;
+- `send(...)` ownership transitions;
+- resource-composition records;
+- path-sensitive cleanup and lifetime realization;
+- dynamic `Many<T>` allocation/growth/reclamation;
+- owned/shared result transfer ABIs;
+- detached SIR-C native generation.
 
 ## Build
+
+### CMake
 
 ```bat
 cmake -S . -B build -A x64
 cmake --build build --config Release
-build\Release\stazec.exe examples\shared_return.stz3 -o shared_return.exe
+build\Release\stazec.exe examples\transaction_observable_rollback.stz3 -o rollback.exe
 ```
 
-The native linker path uses Clang's Windows target support plus `lld-link`; `STAZE_CLANG` and `STAZE_LLD_LINK` can override executable paths.
+### Detached backend
 
-## Important boundary
+```bat
+stazec examples\parallel_shared_task.stz3 --check --emit-sir-c parallel_shared_task.sirc
+stazec --from-sir-c parallel_shared_task.sirc -o parallel_shared_task.exe
+```
 
-Compiler 0.7 implements and verifies transaction rollback **obligations**, but does not claim a general runtime rollback/undo engine yet. Resource composition uses verified flattened child obligations rather than a hidden universal destructor runtime.
+Environment overrides:
+
+```text
+STAZE_CLANG      path/name of clang
+STAZE_LLD_LINK   path/name of lld-link
+```
+
+## Release validation
+
+The final package contains the exact source/test/documentation tree used for the 0.8.0 release validation, plus the generated release evidence under `dist/` and raw clean build/CTest logs under `docs/`.
+
+See:
+
+- `docs/TRANSACTION_STRUCTURED_CONCURRENCY.md`
+- `docs/SIR_C_6_FORMAT.md`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/TEST_REPORT_0.8.0.md`
+- `docs/CTEST_OUTPUT_0.8.0.txt`
+- `docs/BUILD_OUTPUT_0.8.0.txt`
+
+## Final 0.8.0 validation
+
+```text
+clean Release build : PASS
+C++ warnings        : 0
+C++ errors          : 0
+CTest               : 170 / 170 PASS
+0.8 LLVM equivalence: 7 / 7 PASS
+0.8 .text equivalence: 7 / 7 PASS
+SIR-S -> SIR-C equivalence: 2 / 2 PASS
+PE32+ generation    : PASS for all 0.8 native acceptance specimens
+```
+
+The final malicious lifetime fixture also passes as a rejection test: a detached task capture cannot outlive the captured SSA value's lifetime region.

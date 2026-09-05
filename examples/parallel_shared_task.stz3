@@ -1,0 +1,27 @@
+staze 3
+module Examples.ParallelSharedTask
+
+fault AllocationFailure
+
+pool SharedCell
+    @heap
+    @lifetime(call)
+    @reclaim(scope)
+    @ownership(shared)
+{
+    tick: i32
+}
+
+public instruction main[] -> i32
+faults [AllocationFailure]
+{
+    cell := SharedCell.alloc(5)
+    parallel
+    {
+        task
+        {
+            observed: i32 := cell.tick
+        }
+    }
+    return cell.tick
+}

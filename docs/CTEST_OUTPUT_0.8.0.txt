@@ -1,0 +1,346 @@
+Internal ctest changing into directory: /mnt/data/StazeCpp23Compiler_0.8.0_build_clean
+Test project /mnt/data/StazeCpp23Compiler_0.8.0_build_clean
+        Start  65: build_07_borrow_cross_boundary_source
+        Start  71: build_07_borrow_mut_cross_boundary_source
+        Start  77: build_07_shared_scope_source
+        Start  83: build_07_shared_manual_release_source
+        Start  89: build_07_shared_return_source
+        Start  95: build_07_send_resource_source
+        Start 101: build_07_partial_field_move_source
+        Start 107: build_07_transaction_send_source
+  1/170 Test  #65: build_07_borrow_cross_boundary_source .........................   Passed    0.11 sec
+        Start 117: build_08_transaction_field_undo_source
+  2/170 Test #101: build_07_partial_field_move_source ............................   Passed    0.12 sec
+        Start 123: build_08_transaction_observable_rollback_source
+  3/170 Test  #71: build_07_borrow_mut_cross_boundary_source .....................   Passed    0.14 sec
+  4/170 Test  #77: build_07_shared_scope_source ..................................   Passed    0.14 sec
+  5/170 Test  #83: build_07_shared_manual_release_source .........................   Passed    0.14 sec
+  6/170 Test  #89: build_07_shared_return_source .................................   Passed    0.14 sec
+        Start 129: build_08_transaction_resource_abort_source
+        Start 135: build_08_transaction_shared_abort_source
+        Start 141: build_08_parallel_tasks_source
+        Start 147: build_08_parallel_shared_task_source
+  7/170 Test  #95: build_07_send_resource_source .................................   Passed    0.15 sec
+  8/170 Test #107: build_07_transaction_send_source ..............................   Passed    0.14 sec
+        Start 153: build_08_parallel_send_task_source
+        Start 156: emit_08_transaction_observable_rollback_sirs
+  9/170 Test #156: emit_08_transaction_observable_rollback_sirs ..................   Passed    0.02 sec
+        Start 159: emit_08_parallel_shared_task_sirs
+ 10/170 Test #159: emit_08_parallel_shared_task_sirs .............................   Passed    0.02 sec
+        Start   7: emit_sirc_fixture
+ 11/170 Test #141: build_08_parallel_tasks_source ................................   Passed    0.07 sec
+ 12/170 Test   #7: emit_sirc_fixture .............................................   Passed    0.02 sec
+        Start  15: emit_rich_sirs_fixture
+        Start  18: build_effect_regions_pe
+ 13/170 Test #117: build_08_transaction_field_undo_source ........................   Passed    0.11 sec
+ 14/170 Test #129: build_08_transaction_resource_abort_source ....................   Passed    0.08 sec
+ 15/170 Test #135: build_08_transaction_shared_abort_source ......................   Passed    0.08 sec
+        Start  26: emit_rich_cardinality_sirc_fixture
+        Start  48: emit_owned_transfer_sirc_fixture
+        Start  50: emit_dynamic_many_transfer_sirc_fixture
+ 16/170 Test #123: build_08_transaction_observable_rollback_source ...............   Passed    0.10 sec
+ 17/170 Test  #15: emit_rich_sirs_fixture ........................................   Passed    0.03 sec
+ 18/170 Test  #26: emit_rich_cardinality_sirc_fixture ............................   Passed    0.03 sec
+ 19/170 Test  #48: emit_owned_transfer_sirc_fixture ..............................   Passed    0.01 sec
+        Start  63: emit_07_borrow_cross_boundary_sirc
+        Start  66: build_07_borrow_cross_boundary_detached
+        Start  69: emit_07_borrow_mut_cross_boundary_sirc
+        Start  72: build_07_borrow_mut_cross_boundary_detached
+ 20/170 Test  #50: emit_dynamic_many_transfer_sirc_fixture .......................   Passed    0.02 sec
+ 21/170 Test  #63: emit_07_borrow_cross_boundary_sirc ............................   Passed    0.02 sec
+ 22/170 Test  #69: emit_07_borrow_mut_cross_boundary_sirc ........................   Passed    0.01 sec
+        Start  75: emit_07_shared_scope_sirc
+        Start  78: build_07_shared_scope_detached
+        Start  81: emit_07_shared_manual_release_sirc
+ 23/170 Test  #75: emit_07_shared_scope_sirc .....................................   Passed    0.01 sec
+        Start  84: build_07_shared_manual_release_detached
+ 24/170 Test #153: build_08_parallel_send_task_source ............................   Passed    0.12 sec
+ 25/170 Test  #81: emit_07_shared_manual_release_sirc ............................   Passed    0.01 sec
+        Start  87: emit_07_shared_return_sirc
+        Start  90: build_07_shared_return_detached
+ 26/170 Test #147: build_08_parallel_shared_task_source ..........................   Passed    0.14 sec
+ 27/170 Test  #87: emit_07_shared_return_sirc ....................................   Passed    0.01 sec
+        Start  93: emit_07_send_resource_sirc
+        Start  96: build_07_send_resource_detached
+ 28/170 Test  #93: emit_07_send_resource_sirc ....................................   Passed    0.00 sec
+        Start  99: emit_07_partial_field_move_sirc
+ 29/170 Test  #99: emit_07_partial_field_move_sirc ...............................   Passed    0.00 sec
+        Start 102: build_07_partial_field_move_detached
+ 30/170 Test  #18: build_effect_regions_pe .......................................   Passed    0.09 sec
+        Start 105: emit_07_transaction_send_sirc
+ 31/170 Test #105: emit_07_transaction_send_sirc .................................   Passed    0.01 sec
+        Start 108: build_07_transaction_send_detached
+ 32/170 Test  #72: build_07_borrow_mut_cross_boundary_detached ...................   Passed    0.09 sec
+        Start 115: emit_08_transaction_field_undo_sirc
+ 33/170 Test  #66: build_07_borrow_cross_boundary_detached .......................   Passed    0.10 sec
+        Start 118: build_08_transaction_field_undo_detached
+ 34/170 Test #115: emit_08_transaction_field_undo_sirc ...........................   Passed    0.01 sec
+        Start 121: emit_08_transaction_observable_rollback_sirc
+ 35/170 Test #121: emit_08_transaction_observable_rollback_sirc ..................   Passed    0.01 sec
+        Start 124: build_08_transaction_observable_rollback_detached
+ 36/170 Test  #78: build_07_shared_scope_detached ................................   Passed    0.11 sec
+        Start 127: emit_08_transaction_resource_abort_sirc
+ 37/170 Test  #84: build_07_shared_manual_release_detached .......................   Passed    0.11 sec
+        Start 130: build_08_transaction_resource_abort_detached
+ 38/170 Test #127: emit_08_transaction_resource_abort_sirc .......................   Passed    0.01 sec
+        Start 133: emit_08_transaction_shared_abort_sirc
+ 39/170 Test #133: emit_08_transaction_shared_abort_sirc .........................   Passed    0.01 sec
+        Start 136: build_08_transaction_shared_abort_detached
+ 40/170 Test #108: build_07_transaction_send_detached ............................   Passed    0.10 sec
+        Start 139: emit_08_parallel_tasks_sirc
+ 41/170 Test #139: emit_08_parallel_tasks_sirc ...................................   Passed    0.03 sec
+        Start 142: build_08_parallel_tasks_detached
+ 42/170 Test  #96: build_07_send_resource_detached ...............................   Passed    0.15 sec
+ 43/170 Test #102: build_07_partial_field_move_detached ..........................   Passed    0.15 sec
+        Start 145: emit_08_parallel_shared_task_sirc
+        Start 148: build_08_parallel_shared_task_detached
+ 44/170 Test #118: build_08_transaction_field_undo_detached ......................   Passed    0.10 sec
+        Start 151: emit_08_parallel_send_task_sirc
+ 45/170 Test  #90: build_07_shared_return_detached ...............................   Passed    0.18 sec
+ 46/170 Test #151: emit_08_parallel_send_task_sirc ...............................   Passed    0.01 sec
+        Start 154: build_08_parallel_send_task_detached
+        Start 157: concretize_08_transaction_observable_rollback_detached_sirs
+ 47/170 Test #145: emit_08_parallel_shared_task_sirc .............................   Passed    0.02 sec
+        Start 160: concretize_08_parallel_shared_task_detached_sirs
+ 48/170 Test #160: concretize_08_parallel_shared_task_detached_sirs ..............   Passed    0.01 sec
+        Start   1: check_core
+ 49/170 Test #157: concretize_08_transaction_observable_rollback_detached_sirs ...   Passed    0.02 sec
+        Start   2: check_hello
+ 50/170 Test #124: build_08_transaction_observable_rollback_detached .............   Passed    0.12 sec
+        Start   3: reject_immutable_set
+ 51/170 Test   #1: check_core ....................................................   Passed    0.01 sec
+        Start   4: reject_unhandled_overflow
+ 52/170 Test   #3: reject_immutable_set ..........................................   Passed    0.01 sec
+        Start   5: reject_delete_one
+ 53/170 Test   #4: reject_unhandled_overflow .....................................   Passed    0.01 sec
+        Start   6: build_pe
+ 54/170 Test   #2: check_hello ...................................................   Passed    0.02 sec
+ 55/170 Test   #5: reject_delete_one .............................................   Passed    0.01 sec
+        Start   8: check_detached_sirc
+        Start   9: build_pe_from_detached_sirc
+ 56/170 Test   #8: check_detached_sirc ...........................................   Passed    0.01 sec
+        Start  10: reject_tampered_sirc
+ 57/170 Test #130: build_08_transaction_resource_abort_detached ..................   Passed    0.13 sec
+        Start  11: check_rich_cardinality
+ 58/170 Test  #10: reject_tampered_sirc ..........................................   Passed    0.01 sec
+        Start  12: check_rich_resources
+ 59/170 Test  #11: check_rich_cardinality ........................................   Passed    0.03 sec
+        Start  13: check_effect_regions
+ 60/170 Test #142: build_08_parallel_tasks_detached ..............................   Passed    0.11 sec
+        Start  14: reject_use_after_move
+ 61/170 Test  #12: check_rich_resources ..........................................   Passed    0.03 sec
+        Start  16: check_detached_rich_sirs
+ 62/170 Test  #13: check_effect_regions ..........................................   Passed    0.02 sec
+ 63/170 Test  #14: reject_use_after_move .........................................   Passed    0.01 sec
+ 64/170 Test  #16: check_detached_rich_sirs ......................................   Passed    0.01 sec
+        Start  17: check_detached_rich_sirc
+        Start  19: build_effect_regions_from_sirc
+        Start  20: reject_bad_effect_token
+ 65/170 Test #148: build_08_parallel_shared_task_detached ........................   Passed    0.11 sec
+        Start  21: reject_missing_move_authority
+ 66/170 Test  #17: check_detached_rich_sirc ......................................   Passed    0.01 sec
+        Start  22: check_heap_allocation
+ 67/170 Test  #20: reject_bad_effect_token .......................................   Passed    0.01 sec
+        Start  23: check_fault_payload_native
+ 68/170 Test #154: build_08_parallel_send_task_detached ..........................   Passed    0.11 sec
+ 69/170 Test  #21: reject_missing_move_authority .................................   Passed    0.01 sec
+        Start  24: check_heap_scope_reclaim
+        Start  25: reject_zero_concrete_size
+ 70/170 Test  #23: check_fault_payload_native ....................................   Passed    0.01 sec
+        Start  27: check_detached_rich_cardinality_sirc
+ 71/170 Test #136: build_08_transaction_shared_abort_detached ....................   Passed    0.18 sec
+ 72/170 Test  #22: check_heap_allocation .........................................   Passed    0.01 sec
+        Start  28: build_rich_cardinality_pe
+        Start  29: build_rich_cardinality_from_sirc
+ 73/170 Test  #24: check_heap_scope_reclaim ......................................   Passed    0.01 sec
+ 74/170 Test  #25: reject_zero_concrete_size .....................................   Passed    0.01 sec
+ 75/170 Test  #27: check_detached_rich_cardinality_sirc ..........................   Passed    0.01 sec
+        Start  30: build_rich_resources_pe
+        Start  31: build_heap_allocation_pe
+        Start  32: build_fault_payload_native_pe
+ 76/170 Test   #6: build_pe ......................................................   Passed    0.12 sec
+        Start  33: check_rich_caller_storage
+ 77/170 Test  #33: check_rich_caller_storage .....................................   Passed    0.03 sec
+        Start  34: build_rich_caller_storage_pe
+ 78/170 Test   #9: build_pe_from_detached_sirc ...................................   Passed    0.15 sec
+        Start  35: check_lifetime_cleanup
+ 79/170 Test  #35: check_lifetime_cleanup ........................................   Passed    0.01 sec
+        Start  36: check_loop_scope_cleanup
+ 80/170 Test  #36: check_loop_scope_cleanup ......................................   Passed    0.01 sec
+        Start  37: check_dynamic_many
+ 81/170 Test  #37: check_dynamic_many ............................................   Passed    0.00 sec
+        Start  38: check_addressable_fields
+ 82/170 Test  #30: build_rich_resources_pe .......................................   Passed    0.09 sec
+        Start  39: check_static_pool
+ 83/170 Test  #32: build_fault_payload_native_pe .................................   Passed    0.09 sec
+        Start  40: check_transaction_cleanup
+ 84/170 Test  #19: build_effect_regions_from_sirc ................................   Passed    0.12 sec
+ 85/170 Test  #38: check_addressable_fields ......................................   Passed    0.01 sec
+        Start  41: check_borrow_narrowing
+        Start  42: check_owned_heap_transfer
+ 86/170 Test  #39: check_static_pool .............................................   Passed    0.01 sec
+ 87/170 Test  #40: check_transaction_cleanup .....................................   Passed    0.01 sec
+ 88/170 Test  #41: check_borrow_narrowing ........................................   Passed    0.01 sec
+ 89/170 Test  #42: check_owned_heap_transfer .....................................   Passed    0.01 sec
+        Start  43: check_dynamic_many_transfer
+        Start  44: reject_widened_borrow_sirs
+        Start  45: reject_borrow_return
+        Start  46: reject_implicit_owned_return
+ 90/170 Test  #28: build_rich_cardinality_pe .....................................   Passed    0.12 sec
+ 91/170 Test  #43: check_dynamic_many_transfer ...................................   Passed    0.01 sec
+ 92/170 Test  #44: reject_widened_borrow_sirs ....................................   Passed    0.01 sec
+        Start  47: reject_missing_transfer_discharge
+        Start  49: check_detached_owned_transfer_sirc
+        Start  51: check_detached_dynamic_many_transfer_sirc
+ 93/170 Test  #29: build_rich_cardinality_from_sirc ..............................   Passed    0.12 sec
+ 94/170 Test  #45: reject_borrow_return ..........................................   Passed    0.01 sec
+ 95/170 Test  #46: reject_implicit_owned_return ..................................   Passed    0.01 sec
+        Start  52: build_lifetime_cleanup_pe
+        Start  53: build_loop_scope_cleanup_pe
+        Start  54: build_dynamic_many_pe
+ 96/170 Test  #49: check_detached_owned_transfer_sirc ............................   Passed    0.01 sec
+ 97/170 Test  #51: check_detached_dynamic_many_transfer_sirc .....................   Passed    0.01 sec
+        Start  55: build_addressable_fields_pe
+        Start  56: build_static_pool_pe
+ 98/170 Test  #47: reject_missing_transfer_discharge .............................   Passed    0.02 sec
+        Start  57: build_transaction_cleanup_pe
+ 99/170 Test  #31: build_heap_allocation_pe ......................................   Passed    0.15 sec
+        Start  58: build_owned_heap_transfer_pe
+100/170 Test  #34: build_rich_caller_storage_pe ..................................   Passed    0.12 sec
+        Start  59: build_dynamic_many_transfer_pe
+101/170 Test  #53: build_loop_scope_cleanup_pe ...................................   Passed    0.16 sec
+        Start  60: build_owned_transfer_from_sirc
+102/170 Test  #54: build_dynamic_many_pe .........................................   Passed    0.16 sec
+        Start  61: build_dynamic_many_transfer_from_sirc
+103/170 Test  #52: build_lifetime_cleanup_pe .....................................   Passed    0.17 sec
+        Start  62: check_07_borrow_cross_boundary
+104/170 Test  #59: build_dynamic_many_transfer_pe ................................   Passed    0.11 sec
+        Start  64: check_07_borrow_cross_boundary_detached
+105/170 Test  #56: build_static_pool_pe ..........................................   Passed    0.17 sec
+106/170 Test  #62: check_07_borrow_cross_boundary ................................   Passed    0.01 sec
+        Start  67: compare_07_borrow_cross_boundary_llvm
+        Start  68: check_07_borrow_mut_cross_boundary
+107/170 Test  #55: build_addressable_fields_pe ...................................   Passed    0.18 sec
+108/170 Test  #58: build_owned_heap_transfer_pe ..................................   Passed    0.15 sec
+109/170 Test  #64: check_07_borrow_cross_boundary_detached .......................   Passed    0.02 sec
+        Start  70: check_07_borrow_mut_cross_boundary_detached
+        Start  73: compare_07_borrow_mut_cross_boundary_llvm
+        Start  74: check_07_shared_scope
+110/170 Test  #57: build_transaction_cleanup_pe ..................................   Passed    0.18 sec
+111/170 Test  #67: compare_07_borrow_cross_boundary_llvm .........................   Passed    0.02 sec
+112/170 Test  #68: check_07_borrow_mut_cross_boundary ............................   Passed    0.02 sec
+113/170 Test  #70: check_07_borrow_mut_cross_boundary_detached ...................   Passed    0.01 sec
+        Start  76: check_07_shared_scope_detached
+        Start  79: compare_07_shared_scope_llvm
+        Start  80: check_07_shared_manual_release
+        Start  82: check_07_shared_manual_release_detached
+114/170 Test  #73: compare_07_borrow_mut_cross_boundary_llvm .....................   Passed    0.02 sec
+115/170 Test  #74: check_07_shared_scope .........................................   Passed    0.02 sec
+116/170 Test  #76: check_07_shared_scope_detached ................................   Passed    0.01 sec
+117/170 Test  #80: check_07_shared_manual_release ................................   Passed    0.01 sec
+        Start  85: compare_07_shared_manual_release_llvm
+        Start  86: check_07_shared_return
+        Start  88: check_07_shared_return_detached
+        Start  91: compare_07_shared_return_llvm
+118/170 Test  #79: compare_07_shared_scope_llvm ..................................   Passed    0.04 sec
+119/170 Test  #82: check_07_shared_manual_release_detached .......................   Passed    0.03 sec
+120/170 Test  #86: check_07_shared_return ........................................   Passed    0.02 sec
+        Start  92: check_07_send_resource
+        Start  94: check_07_send_resource_detached
+        Start  97: compare_07_send_resource_llvm
+121/170 Test  #85: compare_07_shared_manual_release_llvm .........................   Passed    0.03 sec
+122/170 Test  #88: check_07_shared_return_detached ...............................   Passed    0.03 sec
+123/170 Test  #92: check_07_send_resource ........................................   Passed    0.01 sec
+        Start  98: check_07_partial_field_move
+        Start 100: check_07_partial_field_move_detached
+        Start 103: compare_07_partial_field_move_llvm
+124/170 Test  #91: compare_07_shared_return_llvm .................................   Passed    0.02 sec
+125/170 Test  #94: check_07_send_resource_detached ...............................   Passed    0.02 sec
+126/170 Test  #98: check_07_partial_field_move ...................................   Passed    0.01 sec
+        Start 104: check_07_transaction_send
+        Start 106: check_07_transaction_send_detached
+        Start 109: compare_07_transaction_send_llvm
+127/170 Test  #60: build_owned_transfer_from_sirc ................................   Passed    0.10 sec
+128/170 Test #100: check_07_partial_field_move_detached ..........................   Passed    0.01 sec
+        Start 110: reject_07_bad_shared_flag
+        Start 111: reject_07_bad_component_link
+129/170 Test #106: check_07_transaction_send_detached ............................   Passed    0.01 sec
+        Start 112: reject_07_bad_rollback
+130/170 Test  #97: compare_07_send_resource_llvm .................................   Passed    0.02 sec
+131/170 Test #104: check_07_transaction_send .....................................   Passed    0.01 sec
+        Start 113: reject_07_bad_cross_borrow
+        Start 114: check_08_transaction_field_undo
+132/170 Test #103: compare_07_partial_field_move_llvm ............................   Passed    0.02 sec
+133/170 Test #111: reject_07_bad_component_link ..................................   Passed    0.01 sec
+134/170 Test #112: reject_07_bad_rollback ........................................   Passed    0.01 sec
+135/170 Test #113: reject_07_bad_cross_borrow ....................................   Passed    0.01 sec
+        Start 116: check_08_transaction_field_undo_detached
+        Start 119: compare_08_transaction_field_undo_llvm
+        Start 120: check_08_transaction_observable_rollback
+        Start 122: check_08_transaction_observable_rollback_detached
+136/170 Test #114: check_08_transaction_field_undo ...............................   Passed    0.01 sec
+137/170 Test  #61: build_dynamic_many_transfer_from_sirc .........................   Passed    0.12 sec
+138/170 Test #110: reject_07_bad_shared_flag .....................................   Passed    0.02 sec
+139/170 Test #116: check_08_transaction_field_undo_detached ......................   Passed    0.01 sec
+        Start 125: compare_08_transaction_observable_rollback_llvm
+        Start 126: check_08_transaction_resource_abort
+        Start 128: check_08_transaction_resource_abort_detached
+        Start 131: compare_08_transaction_resource_abort_llvm
+140/170 Test #109: compare_07_transaction_send_llvm ..............................   Passed    0.03 sec
+141/170 Test #120: check_08_transaction_observable_rollback ......................   Passed    0.01 sec
+142/170 Test #122: check_08_transaction_observable_rollback_detached .............   Passed    0.01 sec
+        Start 132: check_08_transaction_shared_abort
+        Start 134: check_08_transaction_shared_abort_detached
+        Start 137: compare_08_transaction_shared_abort_llvm
+143/170 Test #119: compare_08_transaction_field_undo_llvm ........................   Passed    0.02 sec
+144/170 Test #126: check_08_transaction_resource_abort ...........................   Passed    0.01 sec
+145/170 Test #128: check_08_transaction_resource_abort_detached ..................   Passed    0.01 sec
+146/170 Test #132: check_08_transaction_shared_abort .............................   Passed    0.01 sec
+        Start 138: check_08_parallel_tasks
+        Start 140: check_08_parallel_tasks_detached
+        Start 143: compare_08_parallel_tasks_llvm
+        Start 144: check_08_parallel_shared_task
+147/170 Test #125: compare_08_transaction_observable_rollback_llvm ...............   Passed    0.02 sec
+148/170 Test #134: check_08_transaction_shared_abort_detached ....................   Passed    0.01 sec
+149/170 Test #138: check_08_parallel_tasks .......................................   Passed    0.01 sec
+150/170 Test #140: check_08_parallel_tasks_detached ..............................   Passed    0.01 sec
+        Start 146: check_08_parallel_shared_task_detached
+        Start 149: compare_08_parallel_shared_task_llvm
+        Start 150: check_08_parallel_send_task
+        Start 152: check_08_parallel_send_task_detached
+151/170 Test #131: compare_08_transaction_resource_abort_llvm ....................   Passed    0.03 sec
+152/170 Test #137: compare_08_transaction_shared_abort_llvm ......................   Passed    0.02 sec
+153/170 Test #143: compare_08_parallel_tasks_llvm ................................   Passed    0.02 sec
+154/170 Test #144: check_08_parallel_shared_task .................................   Passed    0.01 sec
+155/170 Test #146: check_08_parallel_shared_task_detached ........................   Passed    0.01 sec
+156/170 Test #150: check_08_parallel_send_task ...................................   Passed    0.01 sec
+        Start 155: compare_08_parallel_send_task_llvm
+        Start 158: compare_08_transaction_observable_rollback_sirc
+        Start 161: compare_08_parallel_shared_task_sirc
+        Start 162: reject_08_task_outside_parallel
+        Start 163: reject_08_task_mutation
+        Start 164: reject_08_transaction_loop
+157/170 Test #149: compare_08_parallel_shared_task_llvm ..........................   Passed    0.02 sec
+158/170 Test #152: check_08_parallel_send_task_detached ..........................   Passed    0.02 sec
+159/170 Test #162: reject_08_task_outside_parallel ...............................   Passed    0.01 sec
+160/170 Test #163: reject_08_task_mutation .......................................   Passed    0.01 sec
+        Start 165: reject_08_transaction_release
+        Start 166: reject_08_bad_undo_kind
+        Start 167: reject_08_bad_undo_offset
+        Start 168: reject_08_bad_task_end
+161/170 Test #164: reject_08_transaction_loop ....................................   Passed    0.01 sec
+162/170 Test #155: compare_08_parallel_send_task_llvm ............................   Passed    0.03 sec
+163/170 Test #165: reject_08_transaction_release .................................   Passed    0.01 sec
+164/170 Test #166: reject_08_bad_undo_kind .......................................   Passed    0.00 sec
+        Start 169: reject_08_bad_task_capture
+        Start 170: reject_08_task_capture_lifetime
+165/170 Test #167: reject_08_bad_undo_offset .....................................   Passed    0.01 sec
+166/170 Test #168: reject_08_bad_task_end ........................................   Passed    0.01 sec
+167/170 Test #158: compare_08_transaction_observable_rollback_sirc ...............   Passed    0.03 sec
+168/170 Test #161: compare_08_parallel_shared_task_sirc ..........................   Passed    0.03 sec
+169/170 Test #169: reject_08_bad_task_capture ....................................   Passed    0.01 sec
+170/170 Test #170: reject_08_task_capture_lifetime ...............................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 170
+
+Total Test time (real) =   1.06 sec

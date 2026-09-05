@@ -1,0 +1,153 @@
+Staze 0.8.0 native evidence
+
+--- transaction_observable_rollback: undo snapshot/restore ---
+13:declare void @llvm.memcpy.p0.p0.i64(ptr, ptr, i64, i1 immarg)
+38:  ret void
+50:  ret void
+67:  ret void
+72:  %undo.1.active = alloca i1, align 1
+73:  store i1 false, ptr %undo.1.active, align 1
+74:  %undo.1.bytes = alloca [4 x i8], align 4
+82:  ret { i32, i64 } %fault.value.0
+84:  call void @llvm.memcpy.p0.p0.i64(ptr %undo.1.bytes, ptr %v1, i64 4, i1 false)
+85:  store i1 true, ptr %undo.1.active, align 1
+93:  store i1 false, ptr %undo.1.active, align 1
+98:  ret { i32, i64 } %ret.value.1
+100:  %undo.o1.u1.isactive = load i1, ptr %undo.1.active, align 1
+101:  br i1 %undo.o1.u1.isactive, label %undo.o1.u1.do, label %undo.o1.u1.done
+102:undo.o1.u1.do:
+103:  call void @llvm.memcpy.p0.p0.i64(ptr %v1, ptr %undo.1.bytes, i64 4, i1 false)
+104:  store i1 false, ptr %undo.1.active, align 1
+105:  br label %undo.o1.u1.done
+106:undo.o1.u1.done:
+138:  ret { i32, i64 } %ret.value.0
+
+--- transaction_resource_abort: allocation/release/undo ---
+11:declare dllimport ptr @HeapAlloc(ptr, i32, i64)
+12:declare dllimport i32 @HeapFree(ptr, i32, ptr)
+29:define internal void @staze_heap_free_if_nonnull(ptr %p) {
+35:  %ok = call i32 @HeapFree(ptr %heap, i32 0, ptr %p)
+64:  %ok = call i32 @HeapFree(ptr %heap, i32 0, ptr %base)
+72:  %resource.1.slot = alloca ptr, align 8
+73:  store ptr null, ptr %resource.1.slot, align 8
+74:  %undo.1.active = alloca i1, align 1
+75:  store i1 false, ptr %undo.1.active, align 1
+89:  %o5.base = call ptr @HeapAlloc(ptr %o5.heap, i32 0, i64 4)
+94:  store ptr %v5, ptr %resource.1.slot, align 8
+96:  store i1 true, ptr %undo.1.active, align 1
+102:  store i1 false, ptr %undo.1.active, align 1
+110:  %undo.o1.u1.isactive = load i1, ptr %undo.1.active, align 1
+111:  br i1 %undo.o1.u1.isactive, label %undo.o1.u1.do, label %undo.o1.u1.done
+112:undo.o1.u1.do:
+113:  %undo.o1.u1.p = load ptr, ptr %resource.1.slot, align 8
+114:  call void @staze_heap_free_if_nonnull(ptr %undo.o1.u1.p)
+115:  store ptr null, ptr %resource.1.slot, align 8
+116:  store i1 false, ptr %undo.1.active, align 1
+117:  br label %undo.o1.u1.done
+118:undo.o1.u1.done:
+121:  %undo.o2.u1.isactive = load i1, ptr %undo.1.active, align 1
+122:  br i1 %undo.o2.u1.isactive, label %undo.o2.u1.do, label %undo.o2.u1.done
+123:undo.o2.u1.do:
+124:  %undo.o2.u1.p = load ptr, ptr %resource.1.slot, align 8
+125:  call void @staze_heap_free_if_nonnull(ptr %undo.o2.u1.p)
+126:  store ptr null, ptr %resource.1.slot, align 8
+127:  store i1 false, ptr %undo.1.active, align 1
+128:  br label %undo.o2.u1.done
+129:undo.o2.u1.done:
+132:  %cleanup.r1.p.0 = load ptr, ptr %resource.1.slot, align 8
+133:  call void @staze_heap_free_if_nonnull(ptr %cleanup.r1.p.0)
+134:  store ptr null, ptr %resource.1.slot, align 8
+137:  %cleanup.r1.p.1 = load ptr, ptr %resource.1.slot, align 8
+138:  call void @staze_heap_free_if_nonnull(ptr %cleanup.r1.p.1)
+139:  store ptr null, ptr %resource.1.slot, align 8
+142:  %cleanup.r1.p.2 = load ptr, ptr %resource.1.slot, align 8
+143:  call void @staze_heap_free_if_nonnull(ptr %cleanup.r1.p.2)
+144:  store ptr null, ptr %resource.1.slot, align 8
+
+--- transaction_shared_abort: retain/release/undo ---
+41:define internal void @staze_shared_retain_if_nonnull(ptr %obj) {
+47:  %old = atomicrmw add ptr %base, i64 1 monotonic
+53:define internal void @staze_shared_release_if_nonnull(ptr %obj) {
+59:  %old = atomicrmw sub ptr %base, i64 1 acq_rel
+72:  %resource.1.slot = alloca ptr, align 8
+73:  store ptr null, ptr %resource.1.slot, align 8
+74:  %resource.2.slot = alloca ptr, align 8
+75:  store ptr null, ptr %resource.2.slot, align 8
+76:  %undo.1.active = alloca i1, align 1
+77:  store i1 false, ptr %undo.1.active, align 1
+87:  store ptr %v2, ptr %resource.1.slot, align 8
+91:  %cleanup.r1.p.0 = load ptr, ptr %resource.1.slot, align 8
+92:  call void @staze_shared_release_if_nonnull(ptr %cleanup.r1.p.0)
+93:  store ptr null, ptr %resource.1.slot, align 8
+94:  %cleanup.r2.p.1 = load ptr, ptr %resource.2.slot, align 8
+95:  call void @staze_shared_release_if_nonnull(ptr %cleanup.r2.p.1)
+96:  store ptr null, ptr %resource.2.slot, align 8
+101:  %cleanup.r1.p.2 = load ptr, ptr %resource.1.slot, align 8
+102:  call void @staze_shared_release_if_nonnull(ptr %cleanup.r1.p.2)
+103:  store ptr null, ptr %resource.1.slot, align 8
+104:  %cleanup.r2.p.3 = load ptr, ptr %resource.2.slot, align 8
+105:  call void @staze_shared_release_if_nonnull(ptr %cleanup.r2.p.3)
+106:  store ptr null, ptr %resource.2.slot, align 8
+111:  call void @staze_shared_retain_if_nonnull(ptr %v2)
+113:  store ptr %v6, ptr %resource.2.slot, align 8
+114:  store i1 true, ptr %undo.1.active, align 1
+120:  store i1 false, ptr %undo.1.active, align 1
+126:  %cleanup.r1.p.4 = load ptr, ptr %resource.1.slot, align 8
+127:  call void @staze_shared_release_if_nonnull(ptr %cleanup.r1.p.4)
+128:  store ptr null, ptr %resource.1.slot, align 8
+129:  %cleanup.r2.p.5 = load ptr, ptr %resource.2.slot, align 8
+130:  call void @staze_shared_release_if_nonnull(ptr %cleanup.r2.p.5)
+131:  store ptr null, ptr %resource.2.slot, align 8
+136:  %undo.o3.u1.isactive = load i1, ptr %undo.1.active, align 1
+137:  br i1 %undo.o3.u1.isactive, label %undo.o3.u1.do, label %undo.o3.u1.done
+138:undo.o3.u1.do:
+139:  %undo.o3.u1.p = load ptr, ptr %resource.2.slot, align 8
+140:  call void @staze_shared_release_if_nonnull(ptr %undo.o3.u1.p)
+141:  store ptr null, ptr %resource.2.slot, align 8
+142:  store i1 false, ptr %undo.1.active, align 1
+143:  br label %undo.o3.u1.done
+144:undo.o3.u1.done:
+147:  %undo.o4.u1.isactive = load i1, ptr %undo.1.active, align 1
+148:  br i1 %undo.o4.u1.isactive, label %undo.o4.u1.do, label %undo.o4.u1.done
+149:undo.o4.u1.do:
+150:  %undo.o4.u1.p = load ptr, ptr %resource.2.slot, align 8
+151:  call void @staze_shared_release_if_nonnull(ptr %undo.o4.u1.p)
+152:  store ptr null, ptr %resource.2.slot, align 8
+153:  store i1 false, ptr %undo.1.active, align 1
+154:  br label %undo.o4.u1.done
+155:undo.o4.u1.done:
+
+--- parallel_tasks: concrete control-flow order ---
+36:  br label %done
+38:  ret void
+48:  br label %done
+50:  ret void
+65:  br label %done
+67:  ret void
+72:  br label %b0
+73:b0:
+74:  br label %b1
+75:b1:
+76:  br label %b3
+77:b2:
+81:  ret { i32, i64 } %ret.value.0
+82:b3:
+84:  br label %b4
+85:b4:
+86:  br label %b5
+87:b5:
+89:  br label %b6
+90:b6:
+91:  br label %b2
+
+--- parallel_shared_task: SIR task/capture records ---
+19:region 3 2 7461736b2e31 7461736b 73636f7065 73747275637475726564 6a6f696e
+23:taskcapture 1 2 3 2 1 7368617265642d72656164
+49:op 3 parallel.begin 3 unit One - 2 0 2 3 0 0 - - - 0 19 5 0 0 0 1
+59:op 4 task.begin 4 unit One - 3 0 5 6 0 0 - - - 0 21 9 0 0 0 1
+73:op 6 task.end 6 unit One - 3 0 8 9 0 0 - - - 0 21 9 0 0 0 1
+79:op 7 parallel.end 7 unit One - 2 0 10 11 0 0 - - - 0 19 5 0 0 0 1
+
+--- parallel_shared_task: SIR-C concrete task plans ---
+24:taskplan 1 2 3 4 6
+25:ctaskcapture 1 2 3 2 1 7368617265642d72656164

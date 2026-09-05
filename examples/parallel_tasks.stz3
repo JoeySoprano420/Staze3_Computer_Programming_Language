@@ -1,0 +1,19 @@
+staze 3
+module Examples.ParallelTasks
+
+public instruction main[] -> i32
+{
+    seed: i32 := 7
+    parallel
+    {
+        task
+        {
+            a: bool := seed = 7
+        }
+        task
+        {
+            b: bool := seed > 0
+        }
+    }
+    return seed
+}

@@ -1,0 +1,24 @@
+staze 3
+module Examples.TransactionResourceAbort
+
+fault AllocationFailure
+
+pool TxCell
+    @heap
+    @lifetime(transaction)
+    @reclaim(scope)
+{
+    tick: revise i32
+}
+
+public instruction main[] -> i32
+faults [AllocationFailure, ArithmeticOverflow]
+{
+    transaction
+    {
+        cell := TxCell.alloc(11)
+        x: i32 := 2147483647
+        y: i32 := x + 1
+    }
+    return 0
+}

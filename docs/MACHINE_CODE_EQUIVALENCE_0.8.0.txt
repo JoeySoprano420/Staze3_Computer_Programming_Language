@@ -1,0 +1,7 @@
+transaction_field_undo               text_sha=800e501c79ad111a5e80b76b0eac46e4cf89fec3159f7932b591ae20e20216bc
+transaction_observable_rollback      text_sha=d05c41a926804f600b7366eba8d8beabe251539b91c699ee0e81f77190a1ac0b
+transaction_resource_abort           text_sha=1f48b3452aaab9d914113dc02c6924b29bb3029975d142402ea4491fa42d978a
+transaction_shared_abort             text_sha=7e9e64b514d99d38ed95739dfe2b9f7a33d6d24222e073c95b00ed80895e9327
+parallel_tasks                       text_sha=98893f5e1b8c615af41c05ec728138836d6570ebccf97b88f857ad6113e8dd8d
+parallel_shared_task                 text_sha=3792f1f5ede413162f5412282b6254d6e8218e8f85c9f880459292ced5471087
+parallel_send_task                   text_sha=f1bf6fd51185736d3a82265f936cfdbd37751d6220ffee86869f05c6067288ba
