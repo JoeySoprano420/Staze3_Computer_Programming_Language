@@ -1,0 +1,10 @@
+staze 3
+module Negative.TransactionRelease
+fault AllocationFailure
+pool Cell @heap @lifetime(call) @reclaim(manual) { tick: i32 }
+public instruction main[] -> i32 faults [AllocationFailure]
+{
+    cell := Cell.alloc(1)
+    transaction { release(cell) }
+    return 0
+}

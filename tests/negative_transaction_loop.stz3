@@ -1,0 +1,10 @@
+staze 3
+module Negative.TransactionLoop
+public instruction main[] -> i32
+{
+    transaction
+    {
+        loop { }
+    }
+    return 0
+}

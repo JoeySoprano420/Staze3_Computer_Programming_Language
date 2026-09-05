@@ -1,0 +1,7 @@
+staze 3
+module Negative.TaskOutsideParallel
+public instruction main[] -> i32
+{
+    task { x: i32 := 1 }
+    return 0
+}

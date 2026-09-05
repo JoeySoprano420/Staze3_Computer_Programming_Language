@@ -1,0 +1,11 @@
+staze 3
+module Negative.TaskMutation
+public instruction main[] -> i32
+{
+    x: revise i32 := 1
+    parallel
+    {
+        task { set x = 2 }
+    }
+    return 0
+}
